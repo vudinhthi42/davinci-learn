@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davinci Marketing — Learn Fast</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;--sidebar:#1e1e1c;--card:#fff;--border:#e5e3dc;
+  --green:#1D9E75;--green-lite:#E1F5EE;--green-dark:#085041;
+  --blue:#185FA5;--blue-lite:#E6F1FB;
+  --orange:#D85A30;--orange-lite:#FAECE7;
+  --purple:#534AB7;--purple-lite:#EEEDFE;
+  --amber:#BA7517;--amber-lite:#FAEEDA;
+  --gray:#888780;--gray-lite:#F1EFE8;
+  --dark:#2C2C2A;--text:#3a3a38;
+  --sw:272px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;transition:padding-left .3s}
+body.open{padding-left:var(--sw)}
+
+/* SIDEBAR */
+#sb{width:var(--sw);min-height:100vh;background:var(--sidebar);position:fixed;top:0;left:0;overflow-y:auto;z-index:200;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .3s}
+body.open #sb{transform:translateX(0)}
+#sbh{padding:18px 18px 12px;border-bottom:1px solid #2a2a28}
+#sbh h1{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+#sbh p{font-size:11px;color:#777;margin-top:3px}
+#sbp{padding:10px 18px;border-bottom:1px solid #2a2a28}
+.po{height:3px;background:#333;border-radius:2px;margin-bottom:5px}
+.pi{height:3px;background:var(--green);border-radius:2px;transition:width .4s}
+.pt{font-size:11px;color:#666}
+#nav{flex:1;padding:6px 0 20px}
+.pl{font-size:10px;font-weight:700;color:#444;padding:10px 18px 3px;text-transform:uppercase;letter-spacing:.06em}
+.ni{display:flex;align-items:center;gap:9px;padding:7px 18px;cursor:pointer;border-left:2px solid transparent;transition:background .12s}
+.ni:hover{background:#252523}
+.ni.active{background:#232321;border-left-color:var(--green)}
+.ni.done .nd{background:var(--green)}
+.nd{width:7px;height:7px;border-radius:50%;background:#383836;flex-shrink:0}
+.ni.active .nd{background:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,.2)}
+.nl{font-size:12.5px;color:#bbb;line-height:1.3;flex:1}
+.ni.active .nl{color:#fff;font-weight:500}
+
+/* TOGGLE */
+#tog{position:fixed;top:14px;left:14px;z-index:300;width:36px;height:36px;border-radius:8px;background:var(--dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:left .3s}
+body.open #tog{left:calc(var(--sw) + 10px)}
+#tog svg{width:18px;height:18px;stroke:#ccc;fill:none;stroke-width:2;stroke-linecap:round}
+#tog:hover{background:#444}
+
+/* MAIN */
+#main{max-width:780px;margin:0 auto;padding:28px 32px 60px}
+@media(max-width:600px){#main{padding:20px 16px 50px}}
+
+/* LESSON HEADER */
+.ptag{display:inline-block;font-size:11px;font-weight:600;background:var(--green-lite);color:var(--green-dark);padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.ltitle{font-size:24px;font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:8px}
+.stag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--green-lite);color:var(--green-dark)}
+
+/* COMPONENTS */
+.comp{margin-top:18px;animation:fi .4s ease}
+.comp.hidden{display:none}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.cc{background:var(--green-lite);border-color:var(--green);border-left-width:3px}
+.cc p{font-size:15px;font-weight:600;color:var(--dark);line-height:1.75}
+.ic{background:var(--blue-lite);border-color:var(--blue);border-left-width:3px;font-size:13px;color:#0c447c;line-height:1.6}
+h3{font-size:12px;font-weight:700;color:var(--gray);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.05em}
+p.body{font-size:14px;line-height:1.7;margin-bottom:10px}
+
+/* TABLE */
+.t{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px}
+.t th{background:var(--green);color:#fff;padding:7px 11px;text-align:left;font-weight:600;font-size:12px}
+.t td{padding:7px 11px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.t tr:nth-child(even) td{background:var(--green-lite)}
+.t tr:last-child td{border-bottom:none}
+
+/* QUIZ */
+.qw{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:14px}
+.qct{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.qqt{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:12px;line-height:1.55}
+.qos{display:flex;flex-direction:column;gap:6px}
+.qb{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 13px;cursor:pointer;font-size:13px;text-align:left;transition:all .15s;line-height:1.5;width:100%}
+.qb:hover:not(:disabled){background:var(--gray-lite);border-color:#bbb}
+.qb.correct{background:var(--green-lite);border-color:var(--green);color:var(--green-dark);font-weight:500}
+.qb.wrong{background:#FCEBEB;border-color:#E24B4A;color:#501313}
+.qb:disabled{cursor:default}
+.qfb{font-size:13px;padding:9px 13px;border-radius:8px;margin-top:8px;display:none;line-height:1.5}
+.qfb.ok{background:var(--green-lite);color:var(--green-dark);display:block}
+.qfb.no{background:var(--orange-lite);color:#7a2010;display:block}
+.qsb{text-align:center;padding:18px;background:var(--green-lite);border-radius:10px;margin-top:4px;display:none}
+.sbig{font-size:34px;font-weight:700;color:var(--green-dark)}
+.smsg{font-size:13px;color:var(--green-dark);margin-top:4px}
+
+/* NOTES */
+.nta{width:100%;min-height:70px;border:1px solid var(--border);border-radius:8px;padding:11px;font-size:13px;font-family:inherit;resize:vertical;background:var(--card);color:var(--text);line-height:1.5}
+.nta:focus{outline:none;border-color:var(--green)}
+.nsv{font-size:11px;color:var(--green);margin-top:4px;opacity:0;transition:opacity .3s}
+
+/* BUTTONS */
+.br{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--gray-lite)}
+.btn-g{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-g:hover{background:#168a62}
+.btn-d{background:var(--green);color:#fff;border-color:var(--green);font-size:14px;font-weight:600;padding:10px 22px}
+.btn-d.fin{background:var(--gray-lite);color:var(--gray);border-color:var(--border)}
+.btn-r{background:var(--green-lite);color:var(--green-dark);border:1px solid var(--green);font-size:13px;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;margin-top:14px;transition:all .15s}
+.btn-r:hover{background:var(--green);color:#fff}
+
+/* REFLECTION */
+.ref-item{margin-bottom:10px}
+.ref-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.ref-label.current{color:var(--amber)}
+.ref-label.action{color:var(--green)}
+
+/* OVERVIEW */
+.og{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.oc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s}
+.oc:hover{border-color:var(--green)}
+.oc.done{border-color:var(--green);background:var(--green-lite)}
+.os{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.ot{font-size:13px;font-weight:600;color:var(--dark);line-height:1.35}
+.ost{font-size:11px;font-weight:600;margin-top:5px}
+.sdone{color:var(--green)}.stodo{color:var(--amber)}
+@media(max-width:500px){.og{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="open">
+
+<button id="tog" onclick="toggleSB()" title="Ẩn/hiện menu">
+  <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<nav id="sb">
+  <div id="sbh"><h1>Davinci Marketing</h1><p>Marketing Cơ Bản — Learn Fast</p></div>
+  <div id="sbp"><div class="po"><div class="pi" id="pi" style="width:0%"></div></div><div class="pt" id="pt">0 / 2 bài hoàn thành</div></div>
+  <div id="nav"></div>
+</nav>
+
+<main id="main"><div id="ct"></div></main>
+
+<script>
+const CK='dv_mkt';
+const TOTAL=2;
+
+const L=[
+{id:0,type:'ov',title:'Tổng quan'},
+// ═══ SEGMENTATION ═══
+{
+  id:1,step:1,
+  title:'Segmentation là gì',
+  ptag:'Marketing Cơ Bản',srcL:'Marketing căn bản',
+  concept:'Bạn đang cố bán cho TẤT CẢ MỌI NGƯỜI. Đó chính là lý do KHÔNG AI mua.\nKhi bạn nói với cả thế giới, bạn không nói với ai cả.\nSegmentation = ngừng gào to giữa chợ, bắt đầu thì thầm vào đúng tai người cần nghe.',
+  comps:[
+    // DEFINITION
+    {html:`<h3>Định nghĩa</h3>
+<p class="body"><strong>Segmentation</strong> (phân khúc) = chia thị trường lớn thành các nhóm nhỏ có chung đặc điểm (nhu cầu, hành vi, ngân sách, độ tuổi, tâm lý…) để mỗi nhóm nhận được một thông điệp như được viết riêng cho họ.</p>`},
+    // COMPARISON
+    {html:`<h3>Tại sao Offer quan trọng hơn tất cả?</h3>
+<table class="t"><thead><tr><th>Không segment</th><th>Có segment</th></tr></thead><tbody>
+<tr><td>Thông điệp chung chung, không ai thấy mình</td><td>Khách thấy "đúng là dành cho mình"</td></tr>
+<tr><td>Đốt ngân sách quảng cáo cho người sai</td><td>Mỗi đồng quảng cáo chạm đúng người mua</td></tr>
+<tr><td>Phải giảm giá để cạnh tranh</td><td>Định giá theo giá trị, không ai so sánh</td></tr>
+<tr><td>Sản phẩm "dành cho mọi người" = nhạt nhòa</td><td>Sản phẩm chuyên biệt = không thể thay thế</td></tr>
+<tr><td>Tỷ lệ chốt thấp, sale kiệt sức tư vấn</td><td>Khách tự nhận ra mình cần, chốt nhanh</td></tr>
+</tbody></table>`},
+    // EXAMPLES
+    {html:`<h3>Ví dụ thực tế đa ngành</h3>
+<table class="t"><thead><tr><th>Ngành</th><th>Không segment</th><th>Có segment</th></tr></thead><tbody>
+<tr><td><b>Spa</b></td><td>"Dịch vụ làm đẹp cho mọi phụ nữ"</td><td>"Trị mụn nội tiết cho phụ nữ 28–35 sau sinh"</td></tr>
+<tr><td><b>Gym</b></td><td>"Phòng tập cho mọi lứa tuổi"</td><td>"Tăng cơ cho nam văn phòng 25–35, tập 45 phút/buổi"</td></tr>
+<tr><td><b>Tiếng Anh</b></td><td>"Tiếng Anh giao tiếp cho người mất gốc"</td><td>"Tiếng Anh phỏng vấn cho kỹ sư IT muốn nhảy việc công ty nước ngoài"</td></tr>
+<tr><td><b>Cà phê</b></td><td>"Cà phê ngon, giá rẻ"</td><td>"Không gian yên tĩnh cho freelancer làm việc cả ngày"</td></tr>
+<tr><td><b>Phần mềm kế toán</b></td><td>"Phần mềm kế toán cho doanh nghiệp"</td><td>"Phần mềm kế toán cho chủ shop online doanh thu dưới 500tr/tháng"</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Segmentation thực chất là gì?",opts:["Chia khách hàng theo độ tuổi và giới tính","Chia thị trường thành các nhóm có chung đặc điểm để truyền thông trúng đích","Chọn nhóm khách hàng giàu nhất để bán","Tạo nhiều phiên bản sản phẩm cho nhiều nhóm khác nhau"],correct:1,explain:"B đúng vì segmentation là cách chia nhóm dựa trên đặc điểm chung (nhu cầu, hành vi, tâm lý, không chỉ nhân khẩu học). A sai vì đó chỉ là 1 tiêu chí. C là targeting. D là hệ quả, không phải bản chất."},
+    {q:"Câu nào là dấu hiệu một doanh nghiệp CHƯA segment?",opts:["Họ có 3 landing page khác nhau cho 3 nhóm khách","Họ nói \"sản phẩm phù hợp với tất cả mọi người\"","Họ từ chối nhận khách không thuộc nhóm mục tiêu","Họ định giá cao hơn đối thủ 50%"],correct:1,explain:"\"Phù hợp với tất cả\" = không phù hợp với ai cụ thể — đặc trưng kinh điển của doanh nghiệp chưa segment."},
+    {q:"Hai khách cùng 35 tuổi, cùng thu nhập 30tr, nhưng một người muốn tiết kiệm cho con, người kia muốn nghỉ hưu sớm. Họ nên xếp vào:",opts:["Cùng 1 phân khúc vì cùng nhân khẩu học","Hai phân khúc khác nhau vì mục tiêu khác nhau","Cùng 1 phân khúc nhưng truyền thông khác nhau","Không cần phân khúc vì chênh lệch quá nhỏ"],correct:1,explain:"Động cơ mua khác nhau → nỗi đau, ngôn ngữ, sản phẩm phù hợp khác nhau — đó là 2 phân khúc. Segmentation hiện đại ưu tiên hành vi & động cơ hơn nhân khẩu học."},
+    {q:"Khi nào segmentation trở thành \"chia quá nhỏ\" gây hại?",opts:["Khi có hơn 3 phân khúc","Khi mỗi phân khúc quá nhỏ để bù lại chi phí truyền thông và vận hành riêng","Khi các phân khúc có sản phẩm khác nhau","Khi phân khúc dựa trên hành vi thay vì nhân khẩu học"],correct:1,explain:"Segmentation chỉ có nghĩa khi mỗi nhóm đủ lớn & có lợi nhuận để xứng đáng đầu tư riêng. Quá nhỏ = lỗ."},
+    {q:"Sự khác biệt giữa Segmentation và Targeting là gì?",opts:["Segmentation = chia nhóm. Targeting = chọn nhóm nào để tập trung","Segmentation và Targeting là một","Segmentation = chọn nhóm. Targeting = chia nhóm","Segmentation dành cho B2C, Targeting dành cho B2B"],correct:0,explain:"Đây là định nghĩa chuẩn: bạn segment trước (vẽ bản đồ thị trường), rồi target (cắm cờ vào nhóm chọn). 2 bước khác nhau trong quy trình STP."}
+  ],
+  quiz2:[
+    {q:"Davinci nên truyền thông giống nhau cho \"F0 chưa từng vào lệnh\" và \"trader 3 năm muốn nâng cấp hệ thống\" không?",opts:["Có, vì cùng học Technical Analysis tại Davinci","Có, để tiết kiệm chi phí marketing","Không, vì hai nhóm có nỗi đau, kỳ vọng, ngôn ngữ khác nhau","Không, vì F0 không có tiền trả học phí"],correct:2,explain:"F0 sợ thua lỗ và muốn an toàn, trader 3 năm muốn winrate cao hơn — nỗi đau khác cần thông điệp khác."},
+    {q:"Một người có vốn 50tr và một người có vốn 2 tỷ — Davinci nên xếp họ thế nào?",opts:["Cùng phân khúc, vì cùng muốn học Technical Analysis","Hai phân khúc khác nhau, vì khẩu vị rủi ro, kỳ vọng lợi nhuận khác nhau","Chỉ phục vụ người có 2 tỷ, bỏ người 50tr","Cùng phân khúc, chỉ khác mức học phí"],correct:1,explain:"2 tỷ lo bảo toàn vốn; 50tr cần x2-x3 mới đáng kể → tâm lý, hệ thống, mục tiêu đều khác."},
+    {q:"Nếu Davinci chỉ được chọn 1 phân khúc để all-in trong 12 tháng tới, tiêu chí quan trọng nhất là gì?",opts:["Phân khúc đông nhất","Phân khúc Davinci giỏi phục vụ nhất, đủ lớn, và sẵn lòng trả học phí cao","Phân khúc cạnh tranh ít nhất","Phân khúc dễ chạy quảng cáo nhất"],correct:1,explain:"Lựa chọn đúng = giao điểm của (năng lực Davinci × quy mô × khả năng chi trả)."},
+    {q:"Học viên \"muốn tự tin vào lệnh\" và \"muốn bỏ việc full-time trading\" — có thể bán cùng 1 khóa không?",opts:["Có, vì cả hai cùng học Technical Analysis","Có, nếu khóa học đủ tốt","Không — kỳ vọng, cam kết thời gian, mức giá sẵn lòng trả đều khác nhau lớn","Không, vì bỏ việc là vi phạm pháp luật"],correct:2,explain:"Nhóm \"tự tin vào lệnh\" cần kết quả vừa phải; nhóm \"full-time\" sẵn sàng trả gấp 3-5 lần cho hệ thống và mentor sâu hơn."},
+    {q:"Davinci muốn tăng học phí gấp đôi mà vẫn full lớp — Segmentation giúp thế nào?",opts:["Tăng giá đều cho tất cả học viên hiện tại","Tìm và chỉ phục vụ phân khúc sẵn lòng trả cao, thiết kế khóa riêng cho họ","Chạy quảng cáo nhiều hơn cho cùng đối tượng cũ","Giảm chất lượng để bù chi phí"],correct:1,explain:"Giá là hàm của giá trị cảm nhận của phân khúc — segment đúng → giá cao trở nên hợp lý."}
+  ],
+  reflection:{
+    current:['Ví dụ: Nghĩ rằng mọi người muốn học đầu tư đều giống nhau...','Ví dụ: Nghĩ rằng ai có thu nhập cao đều sẵn sàng đăng ký...','Ví dụ: Nghĩ rằng chỉ cần dạy tốt là khách tự đến...'],
+    action:['Ví dụ: Phỏng vấn 10 học viên để hiểu rõ họ là ai, cần gì...','Ví dụ: Chia học viên thành ít nhất 3 nhóm dựa trên kinh nghiệm...','Ví dụ: Thiết kế lại thông điệp riêng cho từng nhóm...']
+  }
+},
+// ═══ PSYCHOGRAPHY ═══
+{
+  id:2,step:2,
+  title:'Psychography là gì',
+  ptag:'Marketing Cơ Bản',srcL:'Marketing căn bản',
+  concept:'Bạn biết khách 35 tuổi, thu nhập 30tr, sống ở thành phố lớn — nhưng vẫn KHÔNG hiểu tại sao họ không mua.\nTuổi tác và thu nhập chưa bao giờ khiến ai móc ví. Nỗi sợ và khát vọng mới làm điều đó.\nPsychography = bỏ qua lớp vỏ ngoài, đi thẳng vào BÊN TRONG đầu khách.',
+  comps:[
+    {html:`<h3>Định nghĩa</h3>
+<p class="body"><strong>Psychography</strong> (tâm lý học khách hàng) = phân tích khách hàng dựa trên <strong>bên trong</strong> họ (giá trị sống, niềm tin, nỗi sợ, khát vọng, lối sống, động cơ ẩn) thay vì chỉ <strong>bên ngoài</strong> (tuổi, giới tính, thu nhập, địa lý).</p>`},
+    {html:`<h3>Tại sao Psychography quan trọng hơn bạn nghĩ?</h3>
+<table class="t"><thead><tr><th>Chỉ có Demographics</th><th>Có thêm Psychography</th></tr></thead><tbody>
+<tr><td>Biết khách LÀ AI</td><td>Biết khách MUA VÌ ĐÂU</td></tr>
+<tr><td>Thông điệp dựa trên tuổi/giới tính → chung chung</td><td>Thông điệp chạm nỗi đau cụ thể → ám ảnh</td></tr>
+<tr><td>Sản phẩm "phù hợp với 35–45 tuổi"</td><td>Sản phẩm "dành cho người sợ tuột hạng trong sự nghiệp"</td></tr>
+<tr><td>Thông điệp dễ bị đối thủ sao chép</td><td>Thông điệp khó copy vì cần hiểu khách sâu</td></tr>
+<tr><td>Cạnh tranh bằng giá</td><td>Cạnh tranh bằng cảm xúc</td></tr>
+<tr><td>Quảng cáo "chạy được" nhưng tỷ lệ chuyển đổi thấp</td><td>Quảng cáo "chết người", chuyển đổi cao gấp 3–5 lần</td></tr>
+</tbody></table>`},
+    {html:`<h3>Ví dụ thực tế đa ngành</h3>
+<table class="t"><thead><tr><th>Ngành</th><th>Chỉ Demographics</th><th>+ Psychography</th></tr></thead><tbody>
+<tr><td><b>Thời trang nữ</b></td><td>"Đầm cho phụ nữ 25–35"</td><td>"Đầm cho phụ nữ muốn được nhìn nhận là tử tế, không phô trương"</td></tr>
+<tr><td><b>Xe hơi</b></td><td>"SUV cho gia đình thu nhập 50tr+"</td><td>"SUV cho người sợ con mình không an toàn trên đường về quê"</td></tr>
+<tr><td><b>Khóa kỹ năng</b></td><td>"Khóa giao tiếp cho người 22–30"</td><td>"Cho người sợ phát biểu trong cuộc họp và bị sếp nghĩ là yếu kém"</td></tr>
+<tr><td><b>App tiết kiệm</b></td><td>"App cho người đi làm 25–40"</td><td>"App cho người sợ về già tay trắng giống bố mẹ mình"</td></tr>
+<tr><td><b>Phòng gym</b></td><td>"Gym cho nam 25–45"</td><td>"Gym cho đàn ông muốn thấy mình mạnh mẽ khi đứng cạnh vợ"</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Bản chất của Psychography là gì?",opts:["Phân tích khách theo nghề nghiệp và mức lương","Phân tích khách theo giá trị, niềm tin, nỗi sợ, lối sống","Phân tích khách theo hành vi mua hàng trong quá khứ","Phân tích khách theo vị trí địa lý"],correct:1,explain:"Psychography đi vào \"bên trong\" khách — yếu tố tâm lý. A là demographics, C là behaviorgraphics, D là geographics."},
+    {q:"Hai khách cùng 40 tuổi, cùng thu nhập 50tr. Một mua xe vì sợ con không an toàn, một mua vì muốn được khen sang. Hai người này:",opts:["Giống nhau vì cùng demographics","Khác nhau vì psychography khác nhau","Giống nhau vì cùng mua sản phẩm","Cần khảo sát thêm mới kết luận được"],correct:1,explain:"Động cơ ẩn khác nhau → cách tiếp cận, thông điệp phù hợp hoàn toàn khác."},
+    {q:"Demographics trả lời câu hỏi gì? Psychography trả lời câu hỏi gì?",opts:["Demographics: WHO. Psychography: WHY","Demographics: WHY. Psychography: WHO","Cả hai cùng trả lời WHO","Cả hai cùng trả lời WHY"],correct:0,explain:"Demographics = \"khách là ai\", Psychography = \"tại sao họ mua\"."},
+    {q:"Quảng cáo \"Dành cho nữ 25–35, thu nhập trên 15tr, sống tại Hà Nội\" — có dùng psychography không?",opts:["Có, vì đã mô tả rõ đối tượng","Không, đây là demographics thuần","Có, nếu khách phản hồi","Có một phần"],correct:1,explain:"Tuổi + thu nhập + địa lý = demographics. Cần nỗi sợ/khát vọng để có psychography."},
+    {q:"Quảng cáo \"Dành cho mẹ sợ con mình tụt lại so với bạn bè\" — đây là gì?",opts:["Demographics","Psychography","Cả hai","Không phải cả hai"],correct:1,explain:"\"Sợ con tụt lại\" là nỗi sợ — yếu tố tâm lý → psychography."},
+    {q:"Sai lầm phổ biến nhất khi áp dụng psychography?",opts:["Quá tập trung tâm lý mà bỏ qua demographics","Tự bịa ra \"nỗi sợ của khách\" mà không phỏng vấn thực","Áp dụng cùng một nỗi sợ cho mọi khách","Cả 3 phương án trên"],correct:3,explain:"Cả ba đều là cạm bẫy: bỏ demographics, tự bịa insight, dùng chung nỗi sợ cho mọi khách."},
+    {q:"Cách HIỆU QUẢ NHẤT để tìm ra psychography của khách?",opts:["Đoán dựa trên kinh nghiệm cá nhân","Dùng AI tự tạo persona","Phỏng vấn sâu khách hàng thực, đọc comment, đọc review","Sao chép từ sách marketing kinh điển"],correct:2,explain:"Psychography phải đến từ dữ liệu thực — lời thật, nỗi đau thật."},
+    {q:"Thông điệp dựa trên psychography mạnh sẽ có tính chất gì?",opts:["Khó copy vì đòi hỏi hiểu khách sâu","Dễ copy vì chỉ là câu chữ","Cần ngân sách lớn để triển khai","Chỉ áp dụng được cho B2C"],correct:0,explain:"Hiểu sâu khách là rào cản cạnh tranh thật sự — đối thủ không thể copy chỉ bằng cách đọc thông điệp."},
+    {q:"Psychography giúp định giá CAO hơn vì sao?",opts:["Khách thấy thông điệp chạm vào họ → cảm nhận giá trị riêng → không so sánh giá","Psychography tự động làm sản phẩm tốt hơn","Khách hiểu psychography thường giàu hơn","Vì giảm được chi phí sản xuất"],correct:0,explain:"Khi khách cảm thấy \"thương hiệu này hiểu mình\", giá không còn là yếu tố quyết định."},
+    {q:"Doanh nghiệp đang đốt tiền quảng cáo mà không ra đơn — psychography giúp thế nào?",opts:["Giảm CPC bằng cách tối ưu nền tảng","Viết thông điệp chạm đúng nỗi đau → chuyển đổi tăng → chi phí/đơn giảm","Tăng ngân sách để bù lại","Đổi sang nền tảng quảng cáo khác"],correct:1,explain:"Quảng cáo \"chết\" thường do thông điệp không chạm. Psychography sửa GỐC RỄ."}
+  ],
+  quiz2:[
+    {q:"Hai học viên cùng 30 tuổi, cùng thu nhập 25tr. Một sợ \"về già trắng tay\", một muốn \"tự do tài chính\". Davinci nên xếp cùng phân khúc không?",opts:["Có, cùng demographics → cùng nội dung","Không — psychography khác → động cơ, kỳ vọng khác → thông điệp khác","Có, miễn cùng học Technical Analysis","Có, chỉ khác mức học phí"],correct:1,explain:"\"Sợ trắng tay\" cần AN TOÀN; \"tự do tài chính\" cần KIỂM SOÁT — hai cách tiếp cận hoàn toàn khác."},
+    {q:"Quảng cáo Davinci \"Khóa TA cho nam 30–45 tại Đà Nẵng, thu nhập 20–80tr\" — có dùng psychography không?",opts:["Có vì nói rõ đối tượng nhân khẩu học","Không, đây là demographics thuần — chưa chạm tâm lý","Có một phần vì có giới hạn thu nhập","Có vì có yếu tố địa lý"],correct:1,explain:"Tuổi, giới tính, địa lý, thu nhập = demographics. Cần nỗi sợ/khát vọng mới là psychography."},
+    {q:"Câu nào là thông điệp Davinci dùng psychography MẠNH nhất?",opts:["\"Khóa TA cho nam 30–45 tại Đà Nẵng\"","\"Nếu bạn đã mất 100 triệu vì FOMO và không dám kể với vợ — đây là hệ thống có stoploss rõ ràng\"","\"Học đầu tư cùng chuyên gia hàng đầu\"","\"Khóa học có cam kết đầu ra\""],correct:1,explain:"Chạm 3 yếu tố: nỗi đau cụ thể (mất 100tr) + xấu hổ giấu kín (không dám kể vợ) + giải pháp (stoploss)."},
+    {q:"Davinci muốn tăng học phí 50% mà vẫn full lớp — psychography giúp gì?",opts:["Không liên quan — chỉ cần tăng ngân sách","Giúp tìm nhóm có nỗi đau/khát vọng ĐỦ SÂU để sẵn lòng trả cao","Giúp giảm chất lượng để bù chi phí","Giúp đổi tên khóa học cho sang hơn"],correct:1,explain:"Người sẵn lòng trả cao là người có nỗi đau/khát vọng đủ mạnh để hành động."},
+    {q:"Cách TỐT NHẤT để Davinci khám phá psychography của học viên?",opts:["Đoán dựa trên kinh nghiệm giảng viên","Phỏng vấn sâu học viên cũ (1-1), đọc lời tâm sự, quan sát comment nhóm trader","Khảo sát bằng form Google trắc nghiệm","Sao chép psychography từ đối thủ"],correct:1,explain:"Insight thật đến từ lời thật của khách — phỏng vấn 1-1 + quan sát tự nhiên là vàng."}
+  ],
+  reflection:{
+    current:['Ví dụ: Nghĩ rằng khách chỉ cần kiến thức tốt là đủ để đăng ký...','Ví dụ: Nghĩ rằng ai có thu nhập cao đều sẵn sàng trả học phí...','Ví dụ: Nghĩ rằng mọi học viên đều muốn "làm giàu"...'],
+    action:['Ví dụ: Phỏng vấn 5 học viên cũ để tìm nỗi sợ thật...','Ví dụ: Đọc comment trong group trader để tìm ngôn ngữ cảm xúc...','Ví dụ: Viết lại quảng cáo theo nỗi đau thay vì demographics...']
+  }
+}
+];
+
+// ═══ STATE ═══
+const S={
+  cur:0,
+  done:JSON.parse(localStorage.getItem(CK+'_done')||'[]'),
+  quiz:JSON.parse(localStorage.getItem(CK+'_quiz')||'{}'),
+  quiz2:JSON.parse(localStorage.getItem(CK+'_quiz2')||'{}'),
+  notes:JSON.parse(localStorage.getItem(CK+'_notes')||'{}'),
+  ref:JSON.parse(localStorage.getItem(CK+'_ref')||'{}'),
+};
+function save(){
+  localStorage.setItem(CK+'_done',JSON.stringify(S.done));
+  localStorage.setItem(CK+'_quiz',JSON.stringify(S.quiz));
+  localStorage.setItem(CK+'_quiz2',JSON.stringify(S.quiz2));
+  localStorage.setItem(CK+'_notes',JSON.stringify(S.notes));
+  localStorage.setItem(CK+'_ref',JSON.stringify(S.ref));
+}
+function markDone(id){if(!S.done.includes(id))S.done.push(id);save();rNav();uProg();}
+function toggleSB(){document.body.classList.toggle('open');}
+
+function rNav(){
+  let h='<div class="pl">Bài học</div>';
+  L.forEach((l,i)=>{
+    if(!l.step)return;
+    const done=S.done.includes(l.id),active=S.cur===i;
+    h+=`<div class="ni${done?' done':''}${active?' active':''}" onclick="goTo(${i})">
+      <div class="nd"></div><div class="nl">${l.step}. ${l.title}</div>
+    </div>`;
+  });
+  document.getElementById('nav').innerHTML=h;
+}
+function uProg(){
+  const d=S.done.length,pct=Math.round(d/TOTAL*100);
+  document.getElementById('pi').style.width=pct+'%';
+  document.getElementById('pt').textContent=`${d} / ${TOTAL} bài hoàn thành`;
+}
+function goTo(i){S.cur=i;rNav();rContent();window.scrollTo(0,0);}
+
+function rContent(){
+  const l=L[S.cur],el=document.getElementById('ct');
+  if(l.type==='ov'){el.innerHTML=rOv();return;}
+  el.innerHTML=rLesson(l);
+  initL(l);
+}
+
+function rOv(){
+  let h=`<div style="margin-bottom:24px">
+    <div class="ptag">Tổng quan</div>
+    <h2 class="ltitle">Davinci Marketing — Learn Fast</h2>
+    <span class="stag">Marketing Cơ Bản</span>
+  </div>
+  <div class="card ic">Cá nhân hoá cho: Davinci · Đào tạo đầu tư tài chính · ${S.done.length}/${TOTAL} bài hoàn thành</div>
+  <h3>Toàn bộ ${TOTAL} bài học</h3><div class="og">`;
+  L.filter(l=>l.step).forEach(l=>{
+    const idx=L.indexOf(l),done=S.done.includes(l.id);
+    h+=`<div class="oc${done?' done':''}" onclick="goTo(${idx})">
+      <div class="os">Bài ${l.step}</div>
+      <div class="ot">${l.title}</div>
+      <div class="ost ${done?'sdone':'stodo'}">${done?'✓ Hoàn thành':'Chưa học'}</div>
+    </div>`;
+  });
+  h+=`</div><div class="br"><button class="btn btn-g" onclick="goTo(1)">Bắt đầu học →</button></div>`;
+  return h;
+}
+
+function rLesson(l){
+  const done=S.done.includes(l.id);
+  let h=`<div style="margin-bottom:24px">
+    <div class="ptag">${l.ptag||''}</div>
+    <h2 class="ltitle">${l.title}</h2>
+    <span class="stag">Nguồn: ${l.srcL||''}</span>
+  </div>`;
+  // Concept
+  h+=`<div class="comp" id="c0-${l.id}">
+    <div class="card cc"><p>${(l.concept||'').replace(/\n/g,'<br>')}</p></div>
+    <button class="btn-r" onclick="rev(${l.id},0)">Tiếp tục đọc →</button>
+  </div>`;
+  // Body comps
+  (l.comps||[]).forEach((c,ci)=>{
+    h+=`<div class="comp hidden" id="cb-${l.id}-${ci}">${c.html||''}`;
+    if(ci===(l.comps.length-1)) h+=`<button class="btn-r" onclick="rev(${l.id},1)">Vào phần quiz →</button>`;
+    else h+=`<button class="btn-r" onclick="revBC(${l.id},${ci})">Tiếp tục →</button>`;
+    h+=`</div>`;
+  });
+  // Quiz 1
+  if(l.quiz&&l.quiz.length){
+    h+=`<div class="comp hidden" id="cq-${l.id}">
+      <h3>Câu hỏi kiểm tra</h3>
+      <div class="qw">
+        <div class="qct" id="qc-${l.id}">Câu 1 / ${l.quiz.length}</div>
+        <div id="qb-${l.id}"></div>
+      </div>
+      <div class="qsb" id="qs-${l.id}">
+        <div class="sbig" id="qsn-${l.id}"></div>
+        <div class="smsg" id="qsm-${l.id}"></div>
+        <button class="btn-r" style="margin-top:12px" onclick="rev(${l.id},2)">Vào Quiz Davinci →</button>
+      </div>
+    </div>`;
+  }
+  // Quiz 2 (Davinci)
+  if(l.quiz2&&l.quiz2.length){
+    h+=`<div class="comp hidden" id="cq2-${l.id}">
+      <h3>Quiz — Liên hệ Davinci</h3>
+      <div class="card ic" style="margin-bottom:14px"><strong>Davinci</strong> = đơn vị đào tạo đầu tư tài chính theo phương pháp Technical Analysis tại Đà Nẵng.</div>
+      <div class="qw">
+        <div class="qct" id="qc2-${l.id}">Câu 1 / ${l.quiz2.length}</div>
+        <div id="qb2-${l.id}"></div>
+      </div>
+      <div class="qsb" id="qs2-${l.id}">
+        <div class="sbig" id="qsn2-${l.id}"></div>
+        <div class="smsg" id="qsm2-${l.id}"></div>
+        <button class="btn-r" style="margin-top:12px" onclick="rev(${l.id},3)">Mở phần Reflection →</button>
+      </div>
+    </div>`;
+  }
+  // Reflection
+  if(l.reflection){
+    h+=`<div class="comp hidden" id="cref-${l.id}">
+      <h3>Reflection — Áp dụng vào Davinci</h3>
+      <div class="card" style="padding:18px">
+        <p class="body" style="color:var(--gray);font-size:13px">Viết thật — không có câu trả lời đúng hay sai.</p>
+        <div id="ref-container-${l.id}"></div>
+      </div>
+    </div>`;
+  }
+  // Nav
+  h+=`<div class="comp hidden" id="cn2-${l.id}"><div class="br">`;
+  if(S.cur>1) h+=`<button class="btn" onclick="goTo(${S.cur-1})">← Bài trước</button>`;
+  h+=`<button class="btn btn-d${done?' fin':''}" id="bd-${l.id}" onclick="completL(${l.id})">${done?'✓ Đã hoàn thành':'Đánh dấu hoàn thành'}</button>`;
+  const ni=S.cur+1;
+  if(ni<L.length) h+=`<button class="btn btn-g" onclick="goTo(${ni})">Bài tiếp theo →</button>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+// ═══ REVEAL ═══
+function rev(lid,from){
+  const l=L.find(x=>x.id===lid);
+  if(from===0){
+    hideBtn('c0-'+lid);
+    showEl(`cb-${lid}-0`);
+  } else if(from===1){
+    hideBtn(`cb-${lid}-${(l.comps||[]).length-1}`);
+    const qc=document.getElementById(`cq-${lid}`);
+    if(qc){qc.classList.remove('hidden');rQ(l,0,'quiz','qb','qc');qc.scrollIntoView({behavior:'smooth',block:'start'});}
+  } else if(from===2){
+    // Quiz 2
+    const qc=document.getElementById(`cq2-${lid}`);
+    if(qc){qc.classList.remove('hidden');rQ(l,0,'quiz2','qb2','qc2');qc.scrollIntoView({behavior:'smooth',block:'start'});}
+  } else if(from===3){
+    // Reflection
+    const rc=document.getElementById(`cref-${lid}`);
+    if(rc){rc.classList.remove('hidden');initRef(l);rc.scrollIntoView({behavior:'smooth',block:'start'});}
+    showEl(`cn2-${lid}`);
+  }
+}
+function revBC(lid,ci){
+  hideBtn(`cb-${lid}-${ci}`);
+  showEl(`cb-${lid}-${ci+1}`);
+}
+function hideBtn(id){const el=document.getElementById(id);if(el){const b=el.querySelector('.btn-r');if(b)b.style.display='none';}}
+function showEl(id){const el=document.getElementById(id);if(el){el.classList.remove('hidden');el.scrollIntoView({behavior:'smooth',block:'start'});}}
+
+// ═══ QUIZ ENGINE ═══
+function rQ(l,qi,quizKey,bodyPrefix,ctPrefix){
+  const quizArr=l[quizKey];
+  const storeKey=quizKey==='quiz'?'quiz':'quiz2';
+  const store=S[storeKey];
+  document.getElementById(`${ctPrefix}-${l.id}`).textContent=`Câu ${qi+1} / ${quizArr.length}`;
+  const q=quizArr[qi];
+  let h=`<div class="qqt">${q.q}</div><div class="qos">`;
+  q.opts.forEach((o,oi)=>h+=`<button class="qb" id="${bodyPrefix}-${l.id}-${qi}-${oi}" onclick="ans(${l.id},${qi},${oi},'${quizKey}','${bodyPrefix}','${ctPrefix}')">${String.fromCharCode(65+oi)}. ${o}</button>`);
+  h+=`</div><div class="qfb" id="qf-${bodyPrefix}-${l.id}-${qi}"></div>`;
+  h+=`<div id="qn-${bodyPrefix}-${l.id}-${qi}" style="display:none;margin-top:12px">`;
+  if(qi<quizArr.length-1) h+=`<button class="btn btn-g" onclick="nxtQ(${l.id},${qi},'${quizKey}','${bodyPrefix}','${ctPrefix}')">Câu tiếp theo →</button>`;
+  else h+=`<button class="btn btn-g" onclick="finQ(${l.id},'${quizKey}','${bodyPrefix}','${ctPrefix}')">Xem kết quả →</button>`;
+  h+=`</div>`;
+  document.getElementById(`${bodyPrefix}-${l.id}`).innerHTML=h;
+}
+
+function ans(lid,qi,oi,quizKey,bodyPrefix,ctPrefix){
+  const l=L.find(x=>x.id===lid);
+  const storeKey=quizKey==='quiz'?'quiz':'quiz2';
+  if(!S[storeKey][lid])S[storeKey][lid]=new Array(l[quizKey].length).fill(null);
+  if(S[storeKey][lid][qi]!==null)return;
+  S[storeKey][lid][qi]=oi;save();
+  const q=l[quizKey][qi];
+  document.querySelectorAll(`[id^="${bodyPrefix}-${lid}-${qi}-"]`).forEach(b=>b.disabled=true);
+  const cb=document.getElementById(`${bodyPrefix}-${lid}-${qi}-${q.correct}`);
+  if(cb)cb.classList.add('correct');
+  if(oi!==q.correct){const wb=document.getElementById(`${bodyPrefix}-${lid}-${qi}-${oi}`);if(wb)wb.classList.add('wrong');}
+  const fb=document.getElementById(`qf-${bodyPrefix}-${lid}-${qi}`);
+  if(fb){const ok=oi===q.correct;fb.className=`qfb ${ok?'ok':'no'}`;fb.textContent=(ok?'':'Chưa đúng. ')+q.explain;}
+  const nxt=document.getElementById(`qn-${bodyPrefix}-${lid}-${qi}`);
+  if(nxt)nxt.style.display='block';
+}
+function nxtQ(lid,qi,quizKey,bodyPrefix,ctPrefix){const l=L.find(x=>x.id===lid);rQ(l,qi+1,quizKey,bodyPrefix,ctPrefix);}
+function finQ(lid,quizKey,bodyPrefix,ctPrefix){
+  const l=L.find(x=>x.id===lid);
+  const storeKey=quizKey==='quiz'?'quiz':'quiz2';
+  const qa=S[storeKey][lid]||[];
+  const score=qa.filter((a,i)=>l[quizKey][i]&&a===l[quizKey][i].correct).length;
+  const qb=document.getElementById(`${bodyPrefix}-${lid}`);if(qb)qb.style.display='none';
+  const sfx=quizKey==='quiz'?'':'2';
+  document.getElementById(`qc${sfx}-${lid}`).textContent='Kết quả';
+  const box=document.getElementById(`qs${sfx}-${lid}`);if(!box)return;
+  box.style.display='block';
+  document.getElementById(`qsn${sfx}-${lid}`).textContent=`${score} / ${l[quizKey].length}`;
+  const pct=score/l[quizKey].length;
+  const msg=pct<0.4?'Xem lại lý thuyết rồi thử lại!':pct<0.6?'Còn vài chỗ cần củng cố.':pct<0.8?'Khá tốt!':pct<1?'Tốt lắm!':'Xuất sắc! Nắm vững rồi.';
+  document.getElementById(`qsm${sfx}-${lid}`).textContent=msg;
+}
+
+// ═══ REFLECTION ENGINE ═══
+function initRef(l){
+  const container=document.getElementById(`ref-container-${l.id}`);
+  if(container.dataset.init)return;
+  container.dataset.init='1';
+  if(!S.ref[l.id])S.ref[l.id]={};
+
+  const steps=[];
+  l.reflection.current.forEach((ph,i)=>steps.push({group:'current',label:i===0?'3 điều bạn đang LẦM TƯỞNG về khách hàng của Davinci':null,placeholder:ph,idx:i}));
+  l.reflection.action.forEach((ph,i)=>steps.push({group:'action',label:i===0?'3 điều bạn SẼ THAY ĐỔI từ ngày mai':null,placeholder:ph,idx:i}));
+
+  renderRefStep(l,container,steps,0);
+}
+
+function renderRefStep(l,container,steps,si){
+  if(si>=steps.length){
+    const d=document.createElement('div');
+    d.className='comp';
+    d.innerHTML=`<button class="btn btn-g" onclick="saveRef(${l.id})" style="margin-top:10px">💾 Lưu Reflection</button><div id="ref-saved-${l.id}" style="font-size:12px;color:var(--green);margin-top:6px;display:none">✓ Đã lưu!</div>`;
+    container.appendChild(d);
+    return;
+  }
+  const step=steps[si];
+  if(step.label){
+    const lbl=document.createElement('div');
+    lbl.className='ref-label '+step.group;
+    lbl.style.marginTop=si>0?'18px':'0';
+    lbl.textContent=(step.group==='current'?'🟡 ':'🟢 ')+step.label;
+    container.appendChild(lbl);
+  }
+  const item=document.createElement('div');
+  item.className='ref-item comp';
+  const saved=S.ref[l.id]?.[`r${si}`]||'';
+  item.innerHTML=`<textarea class="nta" rows="2" placeholder="${step.placeholder}" id="ref-${l.id}-${si}" style="min-height:55px">${saved}</textarea>`;
+  container.appendChild(item);
+
+  if(si<steps.length-1){
+    const btnWrap=document.createElement('div');
+    const btn=document.createElement('button');
+    btn.className='btn-r';
+    btn.textContent='Tiếp →';
+    btn.onclick=()=>{
+      const ta=document.getElementById(`ref-${l.id}-${si}`);
+      if(!ta.value.trim()){ta.style.borderColor='var(--orange)';ta.focus();setTimeout(()=>ta.style.borderColor='var(--border)',1500);return;}
+      S.ref[l.id][`r${si}`]=ta.value;save();
+      btn.style.display='none';
+      renderRefStep(l,container,steps,si+1);
+    };
+    btnWrap.appendChild(btn);
+    container.appendChild(btnWrap);
+  } else {
+    // Last item — auto-proceed after typing
+    const ta=document.getElementById(`ref-${l.id}-${si}`);
+    ta.addEventListener('input',()=>{S.ref[l.id][`r${si}`]=ta.value;save();});
+    // Show save after small delay
+    setTimeout(()=>renderRefStep(l,container,steps,si+1),100);
+  }
+}
+
+function saveRef(lid){
+  // Collect all textareas
+  const l=L.find(x=>x.id===lid);
+  for(let i=0;i<6;i++){
+    const ta=document.getElementById(`ref-${lid}-${i}`);
+    if(ta)S.ref[lid][`r${i}`]=ta.value;
+  }
+  save();
+  document.getElementById(`ref-saved-${lid}`).style.display='block';
+}
+
+function completL(id){
+  markDone(id);
+  const b=document.getElementById(`bd-${id}`);
+  if(b){b.classList.add('fin');b.textContent='✓ Đã hoàn thành';}
+}
+
+// ═══ INIT / RESTORE ═══
+function initL(l){
+  const qa=S.quiz[l.id];
+  const qa2=S.quiz2[l.id];
+  if(!qa&&!qa2)return;
+  // Show all comps
+  const c0=document.getElementById(`c0-${l.id}`);if(c0){hideBtn(`c0-${l.id}`);}
+  (l.comps||[]).forEach((_,i)=>{const el=document.getElementById(`cb-${l.id}-${i}`);if(el){el.classList.remove('hidden');hideBtn(`cb-${l.id}-${i}`);}});
+  // Restore Quiz 1
+  if(qa){
+    const qc=document.getElementById(`cq-${l.id}`);if(qc)qc.classList.remove('hidden');
+    const allDone=qa.every(a=>a!==null);
+    if(allDone){finQ(l.id,'quiz','qb','qc');}
+    else{const nxt=qa.findIndex(a=>a===null);rQ(l,nxt,'quiz','qb','qc');}
+  }
+  // Restore Quiz 2
+  if(qa2){
+    const qc2=document.getElementById(`cq2-${l.id}`);if(qc2)qc2.classList.remove('hidden');
+    const allDone2=qa2.every(a=>a!==null);
+    if(allDone2){finQ(l.id,'quiz2','qb2','qc2');}
+    else{const nxt=qa2.findIndex(a=>a===null);rQ(l,nxt,'quiz2','qb2','qc2');}
+  }
+  // Restore Reflection
+  if(S.ref[l.id]&&Object.keys(S.ref[l.id]).length>0){
+    const rc=document.getElementById(`cref-${l.id}`);if(rc)rc.classList.remove('hidden');
+    initRef(l);
+  }
+  showEl(`cn2-${l.id}`);
+}
+
+rNav();uProg();rContent();
+</script>
+</body>
+</html>
