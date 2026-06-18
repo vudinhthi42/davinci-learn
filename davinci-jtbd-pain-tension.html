@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davinci Marketing — JTBD · Pain · Tension</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;--sidebar:#1e1e1c;--card:#fff;--border:#e5e3dc;
+  --green:#1D9E75;--green-lite:#E1F5EE;--green-dark:#085041;
+  --blue:#185FA5;--blue-lite:#E6F1FB;
+  --orange:#D85A30;--orange-lite:#FAECE7;
+  --purple:#534AB7;--purple-lite:#EEEDFE;
+  --amber:#BA7517;--amber-lite:#FAEEDA;
+  --gray:#888780;--gray-lite:#F1EFE8;
+  --dark:#2C2C2A;--text:#3a3a38;
+  --sw:272px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;transition:padding-left .3s}
+body.open{padding-left:var(--sw)}
+#sb{width:var(--sw);min-height:100vh;background:var(--sidebar);position:fixed;top:0;left:0;overflow-y:auto;z-index:200;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .3s}
+body.open #sb{transform:translateX(0)}
+#sbh{padding:18px 18px 12px;border-bottom:1px solid #2a2a28}
+#sbh h1{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+#sbh p{font-size:11px;color:#777;margin-top:3px}
+#sbp{padding:10px 18px;border-bottom:1px solid #2a2a28}
+.po{height:3px;background:#333;border-radius:2px;margin-bottom:5px}
+.pi{height:3px;background:var(--green);border-radius:2px;transition:width .4s}
+.pt{font-size:11px;color:#666}
+#nav{flex:1;padding:6px 0 20px}
+.pl{font-size:10px;font-weight:700;color:#444;padding:10px 18px 3px;text-transform:uppercase;letter-spacing:.06em}
+.ni{display:flex;align-items:center;gap:9px;padding:7px 18px;cursor:pointer;border-left:2px solid transparent;transition:background .12s}
+.ni:hover{background:#252523}
+.ni.active{background:#232321;border-left-color:var(--green)}
+.ni.done .nd{background:var(--green)}
+.nd{width:7px;height:7px;border-radius:50%;background:#383836;flex-shrink:0}
+.ni.active .nd{background:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,.2)}
+.nl{font-size:12.5px;color:#bbb;line-height:1.3;flex:1}
+.ni.active .nl{color:#fff;font-weight:500}
+#tog{position:fixed;top:14px;left:14px;z-index:300;width:36px;height:36px;border-radius:8px;background:var(--dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:left .3s}
+body.open #tog{left:calc(var(--sw) + 10px)}
+#tog svg{width:18px;height:18px;stroke:#ccc;fill:none;stroke-width:2;stroke-linecap:round}
+#tog:hover{background:#444}
+#main{max-width:780px;margin:0 auto;padding:28px 32px 60px}
+@media(max-width:600px){#main{padding:20px 16px 50px}}
+.ptag{display:inline-block;font-size:11px;font-weight:600;background:var(--green-lite);color:var(--green-dark);padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.ltitle{font-size:24px;font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:8px}
+.stag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--green-lite);color:var(--green-dark)}
+.comp{margin-top:18px;animation:fi .4s ease}
+.comp.hidden{display:none}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.cc{background:var(--green-lite);border-color:var(--green);border-left-width:3px}
+.cc p{font-size:15px;font-weight:600;color:var(--dark);line-height:1.75}
+.ic{background:var(--blue-lite);border-color:var(--blue);border-left-width:3px;font-size:13px;color:#0c447c;line-height:1.6}
+h3{font-size:12px;font-weight:700;color:var(--gray);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.05em}
+p.body{font-size:14px;line-height:1.7;margin-bottom:10px}
+.t{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px}
+.t th{background:var(--green);color:#fff;padding:7px 11px;text-align:left;font-weight:600;font-size:12px}
+.t td{padding:7px 11px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.t tr:nth-child(even) td{background:var(--green-lite)}
+.t tr:last-child td{border-bottom:none}
+.qw{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:14px}
+.qct{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.qqt{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:12px;line-height:1.55}
+.qos{display:flex;flex-direction:column;gap:6px}
+.qb{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 13px;cursor:pointer;font-size:13px;text-align:left;transition:all .15s;line-height:1.5;width:100%}
+.qb:hover:not(:disabled){background:var(--gray-lite);border-color:#bbb}
+.qb.correct{background:var(--green-lite);border-color:var(--green);color:var(--green-dark);font-weight:500}
+.qb.wrong{background:#FCEBEB;border-color:#E24B4A;color:#501313}
+.qb:disabled{cursor:default}
+.qfb{font-size:13px;padding:9px 13px;border-radius:8px;margin-top:8px;display:none;line-height:1.5}
+.qfb.ok{background:var(--green-lite);color:var(--green-dark);display:block}
+.qfb.no{background:var(--orange-lite);color:#7a2010;display:block}
+.qsb{text-align:center;padding:18px;background:var(--green-lite);border-radius:10px;margin-top:4px;display:none}
+.sbig{font-size:34px;font-weight:700;color:var(--green-dark)}
+.smsg{font-size:13px;color:var(--green-dark);margin-top:4px}
+.nta{width:100%;min-height:70px;border:1px solid var(--border);border-radius:8px;padding:11px;font-size:13px;font-family:inherit;resize:vertical;background:var(--card);color:var(--text);line-height:1.5}
+.nta:focus{outline:none;border-color:var(--green)}
+.br{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--gray-lite)}
+.btn-g{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-g:hover{background:#168a62}
+.btn-d{background:var(--green);color:#fff;border-color:var(--green);font-size:14px;font-weight:600;padding:10px 22px}
+.btn-d.fin{background:var(--gray-lite);color:var(--gray);border-color:var(--border)}
+.btn-r{background:var(--green-lite);color:var(--green-dark);border:1px solid var(--green);font-size:13px;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;margin-top:14px;transition:all .15s}
+.btn-r:hover{background:var(--green);color:#fff}
+.ref-item{margin-bottom:10px}
+.ref-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.ref-label.current{color:var(--amber)}
+.ref-label.action{color:var(--green)}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.oc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s}
+.oc:hover{border-color:var(--green)}
+.oc.done{border-color:var(--green);background:var(--green-lite)}
+.os{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.ot{font-size:13px;font-weight:600;color:var(--dark);line-height:1.35}
+.ost{font-size:11px;font-weight:600;margin-top:5px}
+.sdone{color:var(--green)}.stodo{color:var(--amber)}
+@media(max-width:500px){.og{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="open">
+<button id="tog" onclick="toggleSB()" title="Ẩn/hiện menu">
+  <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<nav id="sb">
+  <div id="sbh"><h1>Davinci Marketing</h1><p>JTBD · Pain · Tension</p></div>
+  <div id="sbp"><div class="po"><div class="pi" id="pi" style="width:0%"></div></div><div class="pt" id="pt">0 / 4 bài hoàn thành</div></div>
+  <div id="nav"></div>
+</nav>
+<main id="main"><div id="ct"></div></main>
+<script>
+const CK='dv_jpt';
+const TOTAL=4;
+const L=[
+{id:0,type:'ov',title:'Tổng quan'},
+// ═══ BÀI 1: JOB-TO-BE-DONE ═══
+{
+  id:1,step:1,
+  title:'Job-to-be-Done là gì',
+  ptag:'Marketing Cơ Bản',srcL:'Marketing căn bản — Davinci',
+  concept:'Bạn nghĩ khách hàng mua SẢN PHẨM của bạn. Sai.\nKhách hàng "thuê" sản phẩm để LÀM XONG MỘT VIỆC trong cuộc đời họ — và nếu có thứ khác làm việc đó tốt hơn, rẻ hơn, gọn hơn, họ sẽ sa thải bạn ngay ngày mai.\nJob-to-be-Done = ngừng hỏi "khách thích gì ở sản phẩm tôi", bắt đầu hỏi "khách đang cố làm xong việc gì trong đời".',
+  comps:[
+    {html:`<h3>Hai ví dụ dễ hiểu nhất</h3>
+<div class="card" style="margin-bottom:10px">
+<p class="body"><strong>Cái khoan ¼ inch:</strong> Không ai muốn mua cái khoan. Họ muốn cái LỖ trên tường để treo khung ảnh. Nếu mai có công nghệ "dán khung lên tường không cần khoan" — toàn bộ ngành khoan biến mất.</p>
+<p class="body"><strong>Milkshake McDonald's:</strong> 40% milkshake được mua bởi đàn ông đi làm buổi sáng, một mình. "Việc" họ thuê milkshake: giải trí + chống đói + giữ một tay rảnh trên vô-lăng trong 30 phút kẹt xe. Đối thủ thật: chuối, bánh donut, podcast.</p>
+</div>`},
+    {html:`<h3>Định nghĩa</h3>
+<p class="body"><strong>Job-to-be-Done (JTBD)</strong> = việc khách hàng đang cố hoàn thành trong một hoàn cảnh cụ thể — và họ "thuê" sản phẩm/dịch vụ của bạn để hoàn thành việc đó.</p>
+<p class="body">Công thức gọn: <strong>JTBD = Hoàn cảnh + Việc khách muốn làm xong + Kết quả mong đợi + Tiêu chí khách dùng để đánh giá là "xong"</strong>.</p>`},
+    {html:`<h3>Tư duy sản phẩm vs Tư duy JTBD</h3>
+<table class="t"><thead><tr><th>Tư duy "sản phẩm" (không JTBD)</th><th>Tư duy JTBD</th></tr></thead><tbody>
+<tr><td>"Khách thích tính năng gì của sản phẩm tôi?"</td><td>"Khách đang cố làm xong việc gì trong cuộc đời họ?"</td></tr>
+<tr><td>Đối thủ = ai làm sản phẩm giống tôi</td><td>Đối thủ = bất cứ thứ gì khách dùng để làm xong cùng việc đó</td></tr>
+<tr><td>Cải tiến = thêm tính năng</td><td>Cải tiến = hiểu thêm hoàn cảnh + việc + tiêu chí thành công</td></tr>
+<tr><td>Phân khúc theo nhân khẩu</td><td>Phân khúc theo VIỆC khách đang cố làm</td></tr>
+<tr><td>Dễ trở thành thương phẩm, đua giá</td><td>Khó bị thay thế vì bạn giải quyết VIỆC</td></tr>
+</tbody></table>`},
+    {html:`<h3>Ví dụ thực tế đa ngành</h3>
+<table class="t"><thead><tr><th>Ngành</th><th>Tưởng là sản phẩm khách mua</th><th>Job-to-be-Done thật</th></tr></thead><tbody>
+<tr><td><b>Gym</b></td><td>"Mua thẻ tập"</td><td>"Tôi muốn nhìn vào gương mà không thấy chán bản thân"</td></tr>
+<tr><td><b>Phần mềm CRM</b></td><td>"Mua công cụ quản lý KH"</td><td>"Sales đừng quên follow-up, đừng để mất deal nóng"</td></tr>
+<tr><td><b>Khóa học MBA</b></td><td>"Mua bằng MBA"</td><td>"Nhảy việc lên manager với lương gấp đôi"</td></tr>
+<tr><td><b>Sữa công thức</b></td><td>"Mua sữa cho con"</td><td>"Mẹ muốn ngủ thêm 2 tiếng đêm + bớt cảm giác tội lỗi"</td></tr>
+<tr><td><b>Spa</b></td><td>"Mua liệu trình da"</td><td>"Soi gương buổi sáng không thấy mệt mỏi, bước vào cuộc họp tự tin"</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Theo tư duy JTBD, khách hàng thực chất \"mua\" cái gì?",opts:["Sản phẩm và tính năng của nó","Sự tiến bộ trong một hoàn cảnh cụ thể — họ \"thuê\" sản phẩm để hoàn thành một việc","Thương hiệu nổi tiếng","Giá rẻ nhất"],correct:1,explain:"Khách không mua khoan, họ mua \"cái lỗ\". JTBD đặt sự tiến bộ của khách lên trung tâm."},
+    {q:"Ai là \"đối thủ thật sự\" của bạn theo tư duy JTBD?",opts:["Các công ty làm sản phẩm giống bạn","BẤT CỨ thứ gì khách dùng để hoàn thành cùng một Job — kể cả Excel, người quen, hoặc \"không làm gì cả\"","Công ty lớn nhất ngành","Công ty mới thành lập"],correct:1,explain:"Đối thủ của Netflix có thể là... \"đi ngủ sớm\". Hiểu Job mở rộng biên giới cạnh tranh."},
+    {q:"Một mẹ bỉm sữa mua máy hâm sữa Philips. Theo JTBD, \"việc\" cô ấy đang cố làm là gì?",opts:["Có sản phẩm Philips trong nhà","Hâm sữa cho con đêm khuya mà không phải tỉnh táo hoàn toàn, để có thể ngủ thêm","Trang trí bếp","Sưu tầm thiết bị"],correct:1,explain:"Job có hoàn cảnh (đêm khuya, mệt), việc (hâm sữa nhanh), kết quả (ngủ thêm, đỡ kiệt sức)."},
+    {q:"Thương hiệu sữa tăng \"thêm DHA\", doanh số không tăng. Sai lầm theo JTBD là gì?",opts:["Cải tiến vào thuộc tính sản phẩm khi Job thật của mẹ có thể là \"giảm cảm giác tội lỗi\" — DHA giải bài dinh dưỡng, không giải bài cảm xúc","DHA không đủ nhiều","Quảng cáo chưa đúng","Giá quá cao"],correct:0,explain:"Cải tiến đúng tính năng nhưng SAI Job → không tăng doanh số."},
+    {q:"Cùng 30 tuổi, cùng đăng ký khóa đầu tư — 2 học viên có thể có 2 JTBD khác nhau không?",opts:["Không, cùng tuổi thì cùng Job","Có — một người muốn \"tăng thu nhập thụ động\", người kia muốn \"không bị bạn bè coi thường\". 2 Job → cách bán khác","Hiếm khi","Phụ thuộc giới tính"],correct:1,explain:"JTBD phân khúc theo VIỆC, không theo nhân khẩu — sức mạnh lớn nhất của JTBD."},
+    {q:"Câu hỏi NÀO là câu hỏi JTBD đúng chuẩn để phỏng vấn khách?",opts:["\"Bạn có thích sản phẩm không?\"","\"Lần cuối bạn dùng sản phẩm, lúc đó đang xảy ra chuyện gì? Bạn đang cố làm xong việc gì?\"","\"Bạn sẽ trả bao nhiêu?\"","\"Tính năng nào bạn muốn thêm?\""],correct:1,explain:"Câu hỏi JTBD truy hoàn cảnh + việc + lựa chọn trước đó."},
+    {q:"Sai lầm phổ biến nhất khi áp dụng JTBD là gì?",opts:["Nhầm tính năng sản phẩm với Job — JTBD phải nằm trong cuộc đời khách, không nằm trong sản phẩm","Phỏng vấn quá nhiều khách","Viết Job quá ngắn","Dùng tiếng Việt"],correct:0,explain:"Job luôn lớn hơn sản phẩm. Job đúng có thể được giải bởi NHIỀU sản phẩm khác."},
+    {q:"JTBD giúp ĐỊNH GIÁ tốt hơn ở chỗ nào?",opts:["Giá neo theo GIÁ TRỊ của việc khách hoàn thành, không phải theo chi phí sản phẩm","Giảm giá nhanh hơn","So sánh giá với đối thủ dễ hơn","Đặt giá ngẫu nhiên"],correct:0,explain:"Hiểu Job = biết khách \"tiết kiệm/kiếm thêm\" được bao nhiêu nhờ bạn."},
+    {q:"Theo JTBD, \"không làm gì cả\" có phải đối thủ không?",opts:["Không","CÓ — và thường là đối thủ MẠNH NHẤT. Khách chấp nhận hiện trạng là lý do số 1 deal không chốt","Chỉ với B2B","Chỉ trong khủng hoảng"],correct:1,explain:"Khách thuê \"không làm gì\" mỗi ngày — đó là sức ì."},
+    {q:"Khi hiểu sâu Job, bạn cải tiến sản phẩm theo nguyên tắc nào?",opts:["Càng nhiều tính năng càng tốt","Loại bỏ tính năng KHÔNG phục vụ Job + tăng cường tính năng phục vụ Job","Sao chép đối thủ","Theo cảm tính"],correct:1,explain:"Hiểu Job = biết cắt cái gì, tăng cái gì. Lean & focused."}
+  ],
+  quiz2:[
+    {q:"Một người 35 tuổi đăng ký khóa TA tại Davinci. JTBD nào MÔ TẢ ĐÚNG NHẤT?",opts:["\"Tôi muốn học thêm 1 kỹ năng\"","\"Tôi đã đầu tư cảm tính 2 năm, lỗ 100 triệu. Muốn ngừng mở app xem giá run tay — bắt đầu ra quyết định có lý do, ngủ được\"","\"Tôi muốn có bằng cấp\"","\"Tôi muốn gặp bạn bè\""],correct:1,explain:"Job có HOÀN CẢNH (đã lỗ, mất ngủ), VIỆC (chuyển từ cảm tính sang hệ thống), KẾT QUẢ (ra quyết định có lý do)."},
+    {q:"Đối thủ THẬT SỰ của Davinci theo lăng kính JTBD là gì?",opts:["Chỉ các trung tâm đào tạo đầu tư khác","BẤT CỨ thứ gì học viên dùng để giải cùng Job: YouTube, học từ bạn bè, copy lệnh online, hoặc \"rút tiền gửi ngân hàng cho yên thân\"","Công ty chứng khoán","Ngân hàng"],correct:1,explain:"Đối thủ rộng hơn rất nhiều ngành đào tạo. \"Rút tiền cho yên thân\" là đối thủ mạnh khi học viên đã quá mệt."},
+    {q:"Davinci nên CẢI TIẾN khóa học theo nguyên tắc JTBD như thế nào?",opts:["Thêm thật nhiều bài giảng video","Hỏi học viên cũ: \"Sau khóa, việc gì TRONG ĐỜI BẠN trở nên dễ hơn? Việc gì vẫn còn khó?\" — tăng phần giúp việc khó, cắt phần không phục vụ Job","Sao chép giáo trình trung tâm lớn","Tăng số giờ học"],correct:1,explain:"Cải tiến theo Job, không theo \"feeling\" hay đối thủ. Job thật = \"ra quyết định có hệ thống và duy trì kỷ luật\"."},
+    {q:"Davinci muốn ĐỊNH GIÁ theo JTBD. Đâu là cách tiếp cận đúng?",opts:["Tính chi phí giảng viên + mặt bằng + 30% lời","\"Tránh 1 lệnh cảm tính giúp giữ 30–50 triệu. Học phí 20 triệu = 1 lần tránh lỗi sai\" — giá neo vào giá trị Job","Bằng đối thủ","Rẻ hơn YouTube"],correct:1,explain:"Khi học phí nhỏ hơn rất nhiều so với cái khách MẤT vì không có hệ thống → giá hợp lý dù cao."},
+    {q:"Hai học viên: A \"có thêm thu nhập ngoài lương\", B \"bảo toàn tài sản 20 năm\". Hệ quả JTBD?",opts:["Bán cùng 1 khóa với cùng cách nói","2 Job KHÁC HẲN → cần tài liệu khác, cách bán khác, ví dụ trong bài giảng khác","Bỏ một phân khúc","Tăng giá cho B"],correct:1,explain:"JTBD phân khúc theo VIỆC chứ không theo tiền. Cùng TA nhưng phục vụ 2 Job khác → cách phục vụ khác."}
+  ],
+  reflection:{current:3,action:3}
+},
+// ═══ BÀI 2: PAIN ═══
+{
+  id:2,step:2,
+  title:'Pain là gì',
+  ptag:'Marketing Cơ Bản',srcL:'Marketing căn bản — Davinci',
+  concept:'Bạn cứ kể lợi ích sản phẩm — và khách vẫn lướt qua bạn.\nVì lợi ích chỉ là phần thưởng; còn NỖI ĐAU mới là cái khiến người ta móc ví ngay hôm nay thay vì để mai tính.\nPain = khắc họa cụ thể cái khách đang chịu đựng, đủ rõ đến mức câu đầu tiên của bạn khiến họ giật mình "ủa, sao bạn biết rõ về tôi vậy?"',
+  comps:[
+    {html:`<h3>Định nghĩa</h3>
+<p class="body"><strong>Pain</strong> = nỗi đau (chức năng, cảm xúc, xã hội, tài chính) mà khách hàng đang phải chịu đựng vì hiện trạng — và cường độ nỗi đau càng cao, sự sẵn sàng trả tiền càng lớn.</p>
+<p class="body">Công thức gọn: <strong>Pain = Hiện trạng tệ + Cảm giác cụ thể đang chịu + Hệ quả lan sang các mặt khác của đời</strong>.</p>`},
+    {html:`<h3>Không khai thác Pain vs Có khai thác Pain</h3>
+<table class="t"><thead><tr><th>Không khai thác Pain</th><th>Có khai thác Pain</th></tr></thead><tbody>
+<tr><td>Hook: "Sản phẩm có 5 tính năng tuyệt vời"</td><td>Hook: "Bạn có đang phải… [khoảnh khắc đau cụ thể]?"</td></tr>
+<tr><td>Bán bằng lợi ích trừu tượng</td><td>Bán bằng cách KHẮC HỌA hiện trạng đau, rồi mới đưa giải pháp</td></tr>
+<tr><td>Ngân sách đốt vào người chưa cảm thấy đau</td><td>Ngân sách tập trung vào người đã NHẬN RA mình đang đau</td></tr>
+<tr><td>Định giá theo chi phí + 30%</td><td>Định giá theo CƯỜNG ĐỘ ĐAU</td></tr>
+<tr><td>Khách: "có cũng được, không có cũng được"</td><td>Khách: "sao biết rõ về tôi vậy?" → mua</td></tr>
+</tbody></table>`},
+    {html:`<h3>Ví dụ thực tế đa ngành</h3>
+<table class="t"><thead><tr><th>Ngành</th><th>Nói "lợi ích" (nông)</th><th>Khắc họa Pain (sâu)</th></tr></thead><tbody>
+<tr><td><b>Gym</b></td><td>"Tập với HLV, giảm cân hiệu quả"</td><td>"Bạn có ngại mặc áo tắm 3 năm nay không? Có né chụp ảnh tập thể?"</td></tr>
+<tr><td><b>CRM</b></td><td>"Quản lý KH dễ dàng"</td><td>"Lần thứ mấy quên gọi lại khách nóng — 2 tuần sau thấy họ ký với đối thủ?"</td></tr>
+<tr><td><b>Tiếng Anh</b></td><td>"Học giao tiếp"</td><td>"Có né cuộc họp tiếng Anh? Giỏi chuyên môn mà bỏ qua promotion vì không nói được?"</td></tr>
+<tr><td><b>Kế toán</b></td><td>"Quản lý sổ sách hiệu quả"</td><td>"Đến kỳ thuế thức 2 đêm tổng hợp Excel, sợ sai 1 con số bị phạt mấy chục triệu?"</td></tr>
+<tr><td><b>Spa giảm béo</b></td><td>"Liệu trình không xâm lấn"</td><td>"Có 1 cái quần ưng nhất tủ, 2 năm rồi không mặc được?"</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Pain trong marketing được định nghĩa chính xác nhất là gì?",opts:["Sự bất tiện nhỏ khi sử dụng sản phẩm","Nỗi đau (chức năng, cảm xúc, xã hội, tài chính) khách đang chịu vì hiện trạng — cường độ càng cao, khả năng trả tiền càng lớn","Cảm giác sợ hãi khi nhìn quảng cáo","Đau thể chất khi dùng thử"],correct:1,explain:"Pain là cái khách đang CHỊU trong hiện tại, không chỉ giới hạn ở khó chịu thể chất."},
+    {q:"Pain và Benefit khác nhau ở chỗ nào?",opts:["Pain mô tả CÁI ĐANG CHỊU — kéo cảm xúc; Benefit mô tả CÁI SẼ CÓ. Pain mạnh hơn vì cảm xúc tránh-mất gấp 2.5 lần cảm xúc đạt-được","Pain và Benefit giống nhau","Pain tiêu cực nên không nên dùng","Benefit luôn mạnh hơn Pain"],correct:0,explain:"Loss aversion: con người ghét mất 1 thứ gấp 2.5 lần thích có được thứ đó. Pain khai thác đúng cơ chế này."},
+    {q:"Pain có những LOẠI nào?",opts:["Chỉ pain thể chất","Pain chức năng, Pain cảm xúc, Pain xã hội, Pain tài chính","Chỉ pain cảm xúc","Chỉ pain tài chính"],correct:1,explain:"Hiểu 4 loại Pain = biết khai thác đa tầng. Một khách có thể bị 1 pain nhưng phát sinh ra pain ở các tầng khác."},
+    {q:"Trong 2 hook quảng cáo, đâu là hook KHAI THÁC PAIN đúng?",opts:["\"Khóa tiếng Anh — 60 buổi, 2 thầy bản xứ, cam kết đầu ra\"","\"Bao nhiêu lần né cuộc họp tiếng Anh? Bao nhiêu lần để đồng nghiệp trình bày thay mình?\"","\"Khóa tiếng Anh giá rẻ nhất\"","\"Đăng ký ngay hôm nay\""],correct:1,explain:"B khắc họa khoảnh khắc đau cụ thể, khách \"nhìn thấy mình\" trong câu chữ."},
+    {q:"Hai khách cùng tuổi đăng ký gym. Pain có thể khác nhau không?",opts:["Không, cùng nhân khẩu thì cùng pain","CÓ — A: \"soi gương thấy chán\" (Pain cảm xúc); B: \"bác sĩ nói tiền tiểu đường\" (Pain sinh tồn). Pain khác → cách bán khác","Khác nhưng không quan trọng","Chỉ khác cường độ"],correct:1,explain:"Phân khúc theo PAIN, không theo nhân khẩu — sức mạnh của Pain trong marketing."},
+    {q:"Cách khai thác Pain nào SAI / PHẢN CẢM?",opts:["Khắc họa pain bằng khoảnh khắc cụ thể có thật","Đặt câu hỏi mở để khách tự nhận ra","Phóng đại pain đến mức bịa đặt nỗi đau khách không hề có","Liên kết nhiều tầng pain với sự thật quan sát được"],correct:2,explain:"Pain mạnh nhưng phải THẬT. Bịa đặt = mất tín."},
+    {q:"Sai lầm phổ biến NHẤT khi dùng Pain trong landing page?",opts:["Khắc họa pain xong nhưng KHÔNG dẫn sang giải pháp — khách bị bỏ rơi, gây phản cảm","Viết pain quá ngắn","Dùng font chữ to","Để hình ảnh đẹp"],correct:0,explain:"Pain mở vết thương → bắt buộc phải đóng lại bằng giải pháp. Nguyên tắc PAS: Problem → Agitate → Solve."},
+    {q:"Pain giúp ĐỊNH GIÁ tốt hơn ở chỗ nào?",opts:["Định giá theo CƯỜNG ĐỘ ĐAU — nếu pain tốn 200tr/năm, sản phẩm 50tr/năm là rẻ","Pain giúp giảm giá nhanh hơn","Pain giúp đặt giá ngẫu nhiên","Pain không liên quan định giá"],correct:0,explain:"Pain định lượng = giá có cơ sở. \"Bạn đang mất X/tháng → giải pháp rẻ hơn X\"."},
+    {q:"Pain giúp TỐI ƯU NGÂN SÁCH QUẢNG CÁO ở chỗ nào?",opts:["Target tất cả mọi người","Viết hook Pain cụ thể → chỉ người đang ĐAU mới dừng lại đọc. Tiết kiệm ngân sách tự nhiên","Giảm giá thầu","Dùng nhiều hình ảnh"],correct:1,explain:"Hook Pain là bộ lọc khách miễn phí — tự loại bớt người chưa có pain."},
+    {q:"Vị trí đúng của Pain trong cấu trúc bán hàng?",opts:["Cuối bài, sau giới thiệu sản phẩm","ĐẦU BÀI — đưa pain trước để khách cảm thấy \"cần thay đổi\" rồi mới đưa giải pháp. Cấu trúc PAS","Không cần dùng Pain","Rải rác khắp bài"],correct:1,explain:"Thứ tự cảm xúc: phải có ĐỘNG CƠ THAY ĐỔI (pain) trước, mới đến CON ĐƯỜNG (giải pháp)."}
+  ],
+  quiz2:[
+    {q:"Trong 2 hook quảng cáo cho Davinci, đâu là hook KHAI THÁC PAIN đúng?",opts:["\"Khóa TA — 12 tuần, giảng viên 10 năm kinh nghiệm\"","\"Bao nhiêu đêm thức 3h sáng mở app tim đập thình thịch? Bao nhiêu lệnh đặt rồi gỡ rồi đặt lại trong 10 phút?\"","\"Học phí cạnh tranh nhất\"","\"Đăng ký ngay nhận ưu đãi\""],correct:1,explain:"B khắc họa khoảnh khắc đau VẬT LÝ (mất ngủ, tim đập, tay run) — học viên thấy chính mình."},
+    {q:"Hai học viên Davinci. Pain khác nhau thế nào? (A) SV mất 15tr/30tr vốn. (B) Chủ DN mất 800tr/5tỷ vốn.",opts:["Pain giống nhau — đều \"lỗ tiền\"","KHÁC HẲN. (A) Pain cảm xúc + xã hội (xấu hổ, sợ ba mẹ biết). (B) Pain tài chính + xã hội + sinh tồn (20 năm tích lũy bốc hơi, sợ vợ con biết)","Khác nhưng không cần phân biệt","Chỉ khác về số tiền"],correct:1,explain:"Pain khác → \"cú đánh cảm xúc\" trong tư vấn phải khác. Cùng học TA nhưng dẫn dắt khác hoàn toàn."},
+    {q:"Davinci định giá theo PAIN. Cách nào đúng nhất?",opts:["So sánh với khoá khác đắt hơn","\"1 lệnh cảm tính trung bình lỗ bao nhiêu? 30tr? 50tr? Học phí 20tr = bằng TRÁNH được 1 lệnh sai\" — neo vào chi phí pain hiện tại","Tính chi phí + 30%","Rẻ hơn YouTube"],correct:1,explain:"Khi học phí < cái khách đang mất hằng tháng vì pain → quyết định mua trở nên dễ dàng."},
+    {q:"Bài viết/email Davinci nên DẪN DẮT qua Pain theo cấu trúc nào?",opts:["Giới thiệu khóa → giảng viên → học phí","Khắc họa Pain cụ thể → Agitate (cứ thế 1 năm nữa sẽ thế nào?) → Solve (TA có hệ thống) → CTA. Đây là cấu trúc PAS","Toàn bộ là benefit","Toàn bộ là tính năng giảng viên"],correct:1,explain:"PAS (Problem → Agitate → Solve) là cấu trúc kinh điển khai thác Pain."},
+    {q:"Trong các Pain sau của học viên Davinci, Pain nào MẠNH NHẤT?",opts:["\"Không biết đọc biểu đồ\"","\"Đã đánh cảm tính 2 năm, lỗ trên 100tr, mỗi đêm thức dậy mở app, vợ bắt đầu nghi ngờ, thấy mất kiểm soát\" — Pain đa tầng","\"Muốn học thêm kỹ năng\"","\"Bạn bè đang học\""],correct:1,explain:"Pain càng đa tầng, cảm xúc càng dồn nén, mức sẵn sàng trả càng cao. Chạm cả 4 tầng."}
+  ],
+  reflection:{current:3,action:3}
+},
+// ═══ BÀI 3: TENSION ═══
+{
+  id:3,step:3,
+  title:'Tension là gì',
+  ptag:'Marketing Cơ Bản',srcL:'Marketing căn bản — Davinci',
+  concept:'Bạn nói "sản phẩm tôi tốt cho mọi người" — và không ai nhớ bạn.\nVì thương hiệu không có MÂU THUẪN thì không có kịch tính, không có kịch tính thì không có câu chuyện, không có câu chuyện thì không ai kể về bạn cả.\nTension = tìm ra cái mâu thuẫn khách đang giằng xé từng ngày, rồi đứng dứt khoát về 1 phía — đó là cách thương hiệu được nhớ và được nhắc.',
+  comps:[
+    {html:`<h3>Định nghĩa</h3>
+<p class="body"><strong>Tension</strong> = sự giằng xé nội tâm giữa 2 điều khách hàng vừa muốn vừa không thể có đồng thời — thương hiệu xuất hiện như cây cầu hòa giải (hoặc đứng dứt khoát về 1 phía) của 2 lực kéo ngược nhau.</p>
+<p class="body">Công thức gọn: <strong>Tension = "Tôi muốn A" ⇄ "Nhưng tôi cũng muốn B" — A và B mâu thuẫn, không thể đồng thời chọn cả hai</strong>.</p>`},
+    {html:`<h3>Không Tension vs Có Tension</h3>
+<table class="t"><thead><tr><th>Không Tension</th><th>Có Tension</th></tr></thead><tbody>
+<tr><td>"Tốt cho mọi người, mọi tình huống"</td><td>"Dành cho người đang giằng xé giữa A và B"</td></tr>
+<tr><td>Thương hiệu nhạt, dễ bị nhầm</td><td>Thương hiệu có lập trường, dễ nhớ</td></tr>
+<tr><td>Content liệt kê tính năng</td><td>Content kể câu chuyện về cuộc giằng xé</td></tr>
+<tr><td>Khách xem xong không kể lại được</td><td>Khách kể lại được vì chạm vào mâu thuẫn</td></tr>
+<tr><td>Cạnh tranh "tốt hơn, rẻ hơn"</td><td>Cạnh tranh "thương hiệu duy nhất hiểu mâu thuẫn của bạn"</td></tr>
+</tbody></table>`},
+    {html:`<h3>Ví dụ thực tế đa ngành</h3>
+<table class="t"><thead><tr><th>Ngành</th><th>Tension khách đang sống</th><th>Thương hiệu đứng phía nào?</th></tr></thead><tbody>
+<tr><td><b>Đồ ăn nhanh</b></td><td>"Muốn nhanh, tiện" ⇄ "Muốn lành mạnh"</td><td>Sweetgreen: "salad nhanh nhưng cao cấp"</td></tr>
+<tr><td><b>Xe gia đình</b></td><td>"Muốn an toàn cho con" ⇄ "Muốn cảm giác lái mạnh mẽ"</td><td>Volvo: nghiêng dứt khoát về "an toàn"</td></tr>
+<tr><td><b>Thời trang</b></td><td>"Muốn nổi bật" ⇄ "Muốn phù hợp văn phòng"</td><td>Uniqlo: "basic nhưng có gu"</td></tr>
+<tr><td><b>Giáo dục</b></td><td>"Muốn con tự do sáng tạo" ⇄ "Muốn con điểm cao"</td><td>Montessori: đứng phía "tự do"</td></tr>
+<tr><td><b>Cafe</b></td><td>"Muốn yên tĩnh làm việc" ⇄ "Muốn có không khí"</td><td>Starbucks: "third place" — giữa nhà và văn phòng</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Tension trong marketing được định nghĩa chính xác nhất là gì?",opts:["Sự khó chịu khi dùng sản phẩm","Sự giằng xé nội tâm giữa 2 điều khách vừa muốn vừa không thể có đồng thời — có 2 lực kéo ngược nhau","Sự đối đầu giữa 2 thương hiệu","Sự lo lắng về giá"],correct:1,explain:"Tension luôn có 2 cực, 2 lực kéo. Không có 2 cực = không có tension."},
+    {q:"Pain và Tension khác nhau ở chỗ nào?",opts:["Giống nhau, chỉ khác cách gọi","Pain là 1 chiều (\"tôi đang chịu X\"). Tension là 2 chiều (\"tôi muốn A nhưng cũng muốn B\"). Pain mở vết thương; Tension tạo kịch tính","Pain dành cho B2C, Tension cho B2B","Tension mạnh hơn Pain mọi lúc"],correct:1,explain:"Pain = \"đau ở 1 điểm\". Tension = \"giằng xé giữa 2 điểm\"."},
+    {q:"JTBD và Tension khác nhau ở chỗ nào?",opts:["JTBD = \"việc muốn làm xong\" (hướng tới, hành động). Tension = \"vừa muốn A vừa muốn B mâu thuẫn\" (đứng giữa, chưa biết chọn)","Giống nhau hoàn toàn","JTBD mạnh hơn Tension","Tension chỉ là 1 loại JTBD"],correct:0,explain:"JTBD hướng đến hành động. Tension mô tả trạng thái giằng xé chưa giải."},
+    {q:"Đâu là TENSION ĐÚNG CHUẨN?",opts:["\"Khách muốn sản phẩm tốt và giá rẻ\"","\"Người mẹ vừa muốn dành thời gian cho con, vừa muốn giữ sự nghiệp, vừa không muốn mang tiếng 'mẹ tệ'\" — 3 lực kéo ngược, không thể có hết","\"Khách muốn mua hàng\"","\"Khách thích sản phẩm này\""],correct:1,explain:"Tension thật phải có ≥2 lực thật sự MÂU THUẪN, không thể có hết cùng lúc."},
+    {q:"Volvo định vị \"an toàn nhất\" khi đối thủ định vị \"cảm giác lái\". Đây là cách Volvo:",opts:["Đứng dứt khoát về 1 phía của tension \"an toàn ⇄ mạnh mẽ\" — chấp nhận từ bỏ tệp khách thích cảm giác lái","Sao chép đối thủ","Bỏ qua tension","Cố làm hài lòng tất cả"],correct:0,explain:"Định vị mạnh = chọn 1 phe và chấp nhận mất 1 phần khách."},
+    {q:"Cách TÌM RA tension đúng cho thương hiệu?",opts:["Hỏi \"bạn thích gì ở sản phẩm?\"","Quan sát khoảnh khắc khách \"lưỡng lự\" — họ vừa MUỐN X vừa MUỐN Y. Khoảnh khắc lưỡng lự = nơi tension sống","Sao chép tension thương hiệu lớn","Tự nghĩ ra"],correct:1,explain:"Tension không phải bịa, phải tìm trong đời thực — ở khoảnh khắc lưỡng lự."},
+    {q:"Sai lầm phổ biến nhất khi áp dụng Tension?",opts:["Cố đứng GIỮA mọi tension để không mất khách nào — kết quả: không ai nhớ. \"Cho mọi người\" = cho không ai","Đứng dứt khoát về 1 phía","Viết tension quá ngắn","Tìm tension quá nhanh"],correct:0,explain:"Thương hiệu mạnh dám chọn phe, chấp nhận mất 1 phần khách để được nhớ."},
+    {q:"Sai lầm thứ hai khi dùng Tension?",opts:["BỊA tension không có thật — thông điệp gượng, khách không thấy mình","Quan sát quá kỹ khách","Để tension xuyên suốt mọi nội dung","Đứng về 1 phía"],correct:0,explain:"Tension bịa = không cộng hưởng. Tension thật = chạm vào nhịp đời khách."},
+    {q:"Tension giúp gì cho STORYTELLING?",opts:["Không liên quan","Tension LÀ engine của storytelling. Mọi câu chuyện hay đều từ tension. Không có tension = không drama = tờ rơi sản phẩm","Tension chỉ phù hợp với phim","Tension chỉ cho thương hiệu lớn"],correct:1,explain:"Không có tension = không có drama = không có câu chuyện. Quy luật từ Aristotle đến Pixar."},
+    {q:"Tension giúp THƯƠNG HIỆU ĐỊNH GIÁ CAO hơn ở chỗ nào?",opts:["Thương hiệu chọn dứt khoát 1 phe → trở thành \"biểu tượng\" → khách trả tiền cho LẬP TRƯỜNG. Patagonia bán áo gấp 3 lần vì đứng phe \"môi trường\"","Tension không liên quan định giá","Tension chỉ giúp giảm giá","Tension chỉ là kỹ thuật content"],correct:0,explain:"Lập trường rõ ràng trong tension = premium pricing. Khách trả tiền để \"thuộc về\" phe đó."}
+  ],
+  quiz2:[
+    {q:"TENSION nào ĐÚNG NHẤT là tension học viên Davinci đang sống?",opts:["\"Muốn học rẻ\" ⇄ \"Muốn học đắt\"","\"Muốn giàu nhanh từ đầu tư\" ⇄ \"Sợ mất tiền tích lũy nhiều năm\"; \"Muốn học bài bản\" ⇄ \"Không có thời gian, sợ học xong vẫn không áp dụng được\"","\"Muốn ngủ\" ⇄ \"Muốn thức\"","\"Muốn ở Đà Nẵng\" ⇄ \"Muốn ở Hà Nội\""],correct:1,explain:"Tension thực: 2 lực kéo ngược trong cùng 1 con người về cùng chủ đề. Davinci tồn tại để hòa giải tension này."},
+    {q:"Davinci nên ĐỨNG VỀ PHÍA NÀO trong tension \"Cảm tính lướt sóng\" ⇄ \"Có hệ thống\"?",opts:["Đứng giữa — vừa dạy lướt sóng vừa dạy dài hạn","Đứng dứt khoát phía \"có hệ thống\" — chấp nhận mất tệp khách muốn \"lệnh nóng, ăn nhanh\"","Đứng phía \"lướt sóng\" thu hút đông","Không cần chọn phe"],correct:1,explain:"Định vị mạnh = chọn phe + chấp nhận mất 1 phần khách."},
+    {q:"Bài viết Davinci dùng TENSION đúng cách có cấu trúc nào?",opts:["Liệt kê tính năng khóa học","Mở bằng tension học viên sống → Davinci đứng phía nào → tại sao đứng phía đó đúng cho học viên","Toàn bộ về giảng viên","Toàn bộ là khuyến mãi"],correct:1,explain:"Cấu trúc \"kể tension → tuyên ngôn phe đứng → giải thích\" tạo bài viết có chiều sâu."},
+    {q:"Hai học viên tiềm năng sống 2 tension khác nhau. Hệ quả?",opts:["Cùng 1 bài giảng, cùng 1 cách tư vấn","2 tension KHÁC HẲN → cần landing page khác, ví dụ khác, cách tư vấn khác. Cùng TA nhưng đóng gói khác","Bỏ một phân khúc","Tăng giá cho người giàu hơn"],correct:1,explain:"Phân khúc theo TENSION = phân khúc sâu hơn nhân khẩu hay thu nhập."},
+    {q:"Đâu là cách Davinci ĐỊNH VỊ THƯƠNG HIỆU mạnh nhất qua Tension?",opts:["\"Davinci dạy mọi phương pháp cho mọi người\"","\"Davinci là nơi cho người giằng xé giữa MUỐN tự chủ tài chính và SỢ mất tiền vì cảm tính — đứng về phía bạn bằng TA có hệ thống, có quy tắc, có cộng đồng kỷ luật\"","\"Davinci có học phí rẻ nhất\"","\"Davinci có giảng viên trẻ và năng động\""],correct:1,explain:"Tuyên ngôn dựa trên tension + phe đứng = định vị mạnh, khó bị bắt chước, dễ nhớ."}
+  ],
+  reflection:{current:3,action:3}
+},
+// ═══ BÀI 4: QUIZ TỔNG HỢP JTBD + PAIN + TENSION ═══
+{
+  id:4,step:4,
+  title:'Phân biệt JTBD, Pain, Tension',
+  ptag:'Quiz Tổng Hợp',srcL:'Marketing căn bản — Davinci',
+  concept:'Bạn đã học 3 keyword: JTBD, Pain, Tension.\nBây giờ thử xem bạn có PHÂN BIỆT được chúng trong thực tế không — vì nhầm keyword = áp dụng sai công cụ = lãng phí tiền marketing.',
+  comps:[
+    {html:`<h3>Nhắc nhanh 3 keyword</h3>
+<table class="t"><thead><tr><th>Keyword</th><th>Bản chất</th><th>Câu hỏi gốc</th></tr></thead><tbody>
+<tr><td><b>JTBD</b></td><td>Việc khách muốn LÀM XONG (forward, hành động)</td><td>"Khách đang cố làm xong việc gì?"</td></tr>
+<tr><td><b>Pain</b></td><td>Cảm giác khách ĐANG CHỊU (1 chiều, hiện tại)</td><td>"Khách đang chịu nỗi đau cụ thể nào?"</td></tr>
+<tr><td><b>Tension</b></td><td>Sự GIẰNG XÉ giữa 2 mong muốn mâu thuẫn (2 chiều)</td><td>"Khách giằng xé giữa 2 mong muốn nào?"</td></tr>
+</tbody></table>`}
+  ],
+  quiz:[
+    {q:"Câu hỏi nào là câu hỏi JTBD đúng chuẩn?",opts:["\"Học viên đang chịu nỗi đau gì khi đầu tư?\"","\"Học viên đang cố LÀM XONG việc gì — và thuê khóa TA để hoàn thành?\"","\"Học viên đang giằng xé giữa 2 mong muốn nào?\"","\"Học viên thích tính năng nào của khóa học?\""],correct:1,explain:"JTBD truy \"VIỆC khách muốn làm xong\". A là Pain. C là Tension. D là câu hỏi sản phẩm."},
+    {q:"Câu hỏi nào là câu hỏi Pain đúng chuẩn cho học viên Davinci?",opts:["\"Bạn muốn làm gì sau khóa học?\"","\"Cụ thể trong 7 ngày qua, có khoảnh khắc nào về đầu tư khiến bạn khó chịu, mất ngủ nhất?\"","\"Bạn giằng xé giữa 2 mong muốn nào?\"","\"Khóa nên thêm tính năng gì?\""],correct:1,explain:"Pain truy KHOẢNH KHẮC ĐAU CỤ THỂ ở hiện tại. A là JTBD. C là Tension."},
+    {q:"Câu hỏi nào là câu hỏi Tension đúng chuẩn?",opts:["\"Bạn đang đau ở đâu trong đầu tư?\"","\"Bạn vừa MUỐN gì, vừa SỢ gì — 2 lực kéo ngược nhau khiến bạn lưỡng lự?\"","\"Bạn muốn ra quyết định đầu tư thế nào?\"","\"Học phí bao nhiêu thì hợp lý?\""],correct:1,explain:"Tension truy ≥2 lực kéo ngược nhau khiến khách lưỡng lự. A là Pain. C là JTBD."},
+    {q:"Khác biệt cốt lõi giữa JTBD và Pain?",opts:["Giống nhau","JTBD HƯỚNG VỀ PHÍA TRƯỚC (việc muốn làm xong). Pain MÔ TẢ HIỆN TẠI (nỗi đau đang chịu). JTBD = đích đến; Pain = vết thương động cơ","JTBD mạnh hơn Pain","Pain cho B2C, JTBD cho B2B"],correct:1,explain:"JTBD và Pain là 2 lăng kính khác nhau: JTBD = hướng đi; Pain = động lực đẩy người đó đi."},
+    {q:"Khác biệt cốt lõi giữa Pain và Tension?",opts:["Pain là 1 CHIỀU (\"tôi đang chịu X\"). Tension là 2 CHIỀU (\"tôi vừa muốn A vừa muốn B mâu thuẫn\")","Giống nhau","Tension = Pain mức nặng hơn","Pain chỉ cho quảng cáo, Tension chỉ cho thương hiệu"],correct:0,explain:"Pain = 1 vector đơn (đau). Tension = 2 vector ngược chiều (kéo qua kéo lại)."},
+    {q:"Học viên nói: \"Tôi muốn sau 3 tháng, mỗi tuần tự phân tích 3 mã, ghi nhật ký, ra quyết định có lý do.\" Đây là gì?",opts:["Pain","JTBD — có hành động cụ thể + tiêu chí đo lường được","Tension","Không phải 3 keyword nào"],correct:1,explain:"Có hành động cụ thể (phân tích, ghi, ra quyết định) + tiêu chí đo lường → JTBD."},
+    {q:"Học viên: \"Em đầu tư 2 năm, mỗi tối không ngủ được, sợ mở app vì sợ số đỏ, vợ bắt đầu hỏi, em thấy mất kiểm soát.\" Đây là gì?",opts:["JTBD","PAIN — chuỗi cảm giác ĐANG CHỊU: mất ngủ + sợ mở app + xung đột gia đình + mất kiểm soát","Tension","Wish"],correct:1,explain:"Toàn bộ mô tả cảm giác hiện tại đang chịu — không có hướng hành động, không có 2 lực mâu thuẫn."},
+    {q:"Học viên: \"Em vừa muốn đầu tư mạnh hơn để bù lỗ, vừa sợ mất nốt. Vừa muốn học bài bản, vừa thấy chờ học xong thì hết cơ hội.\" Đây là gì?",opts:["JTBD","Pain","TENSION — có 2 cặp \"vừa A vừa B\" mâu thuẫn rõ ràng","Wish"],correct:2,explain:"Dấu hiệu Tension: từ \"vừa…vừa…\" lặp lại + 2 lực ngược chiều + lưỡng lự."},
+    {q:"Học viên: \"Sau khóa, em muốn ra quyết định có kế hoạch, có stop-loss, có nhật ký — và không còn 3h sáng dậy mở app nữa.\" Đây là gì?",opts:["Chỉ JTBD","Chỉ Pain","Vừa JTBD vừa Pain — vế đầu là JTBD (hành động), vế sau là Pain (cái muốn thoát ra)","Tension"],correct:2,explain:"Phát biểu mạnh thường KẾT HỢP JTBD + Pain. Đây là chất liệu vàng cho copywriting."},
+    {q:"\"Em sợ học xong vẫn không áp dụng được, nhưng cũng sợ không học thì cứ tiếp tục lỗ.\" Đây là gì?",opts:["JTBD","Pain","TENSION — 2 nỗi sợ ngược chiều: sợ học (vô ích) ⇄ sợ không học (lỗ tiếp)","Không thuộc 3 keyword"],correct:2,explain:"\"Sợ ⇄ sợ\" cũng là tension nếu 2 nỗi sợ kéo ngược chiều khiến khách đứng yên."},
+    {q:"Hook: \"Bao nhiêu đêm thức 3h sáng mở app tim đập thình thịch?\" — khai thác keyword nào?",opts:["JTBD","PAIN — khắc họa khoảnh khắc đau cụ thể ở hiện tại","Tension","Features"],correct:1,explain:"Pain dùng để mở hook quảng cáo — khắc họa khoảnh khắc đau cụ thể."},
+    {q:"Headline: \"Davinci dành cho người vừa muốn tự chủ tài chính, vừa sợ mất tiền tích lũy 20 năm.\" — keyword nào?",opts:["Pain","JTBD","TENSION — đặt rõ 2 mong muốn ngược chiều. Davinci định vị là cây cầu hòa giải","Feature"],correct:2,explain:"Cấu trúc \"vừa muốn A vừa sợ/muốn B\" = Tension. Headline này định vị thương hiệu."},
+    {q:"Headline: \"Sau 12 tuần, mỗi tuần bạn có 1 nhật ký giao dịch, 3 phân tích kỹ thuật có lý do.\" — keyword nào?",opts:["Pain","JTBD — mô tả VIỆC làm xong + tiêu chí đo lường cụ thể","Tension","Promotion"],correct:1,explain:"Mô tả tiến bộ cụ thể có đo lường = JTBD trong copy."},
+    {q:"Chiến dịch Davinci: (i) Ad: \"Lần thứ mấy bạn để lệnh nóng trôi qua?\" (ii) Landing: \"Dành cho người vừa muốn kiếm thêm, vừa sợ phá nồi cơm.\" (iii) Trang khóa: \"Sau 3 tháng có hệ thống: setup → trigger → stop-loss → review.\" — keyword?",opts:["Cả 3 đều Pain","(i) Pain — (ii) Tension — (iii) JTBD. Pain CHẶN MẮT → Tension KÉO SÂU → JTBD LÀM RÕ kết quả","Cả 3 đều JTBD","Cả 3 đều Tension"],correct:1,explain:"Marketing tốt phối hợp 3 keyword theo tầng phễu: Pain (top), Tension (mid), JTBD (bottom)."},
+    {q:"Tagline: \"Davinci — TA có hệ thống cho người muốn đầu tư bằng kỷ luật, không bằng cảm xúc.\" — keyword?",opts:["Pain","TENSION ngầm — \"kỷ luật ⇄ cảm xúc\" là tension cốt lõi. Davinci đứng phía \"kỷ luật\"","JTBD","Promotion"],correct:1,explain:"Tagline mạnh = chọn phe trong 1 tension. Davinci sở hữu phe \"kỷ luật\"."},
+    {q:"Davinci viết email chốt deal cho khách chưa thanh toán. Nên ưu tiên keyword nào?",opts:["JTBD","PAIN — tạo urgency bằng cảm xúc tránh-mất (mất ngủ, lỗ tiếp, tay run) → hành động ngay","Tension","Features"],correct:1,explain:"Pain = urgency engine. Khi cần khách hành động ngay, Pain là vũ khí mạnh nhất."},
+    {q:"Trang landing \"vì sao chọn Davinci thay vì trung tâm khác\". Ưu tiên keyword nào?",opts:["Pain","JTBD","TENSION + JTBD — Tension để định vị, JTBD để chứng minh kết quả cụ thể","Features list"],correct:2,explain:"Trang so sánh = trang định vị. Tension chọn phe + JTBD chứng minh tiến bộ."},
+    {q:"3 cách neo giá: (i) \"1 lệnh lỗ 30tr, học phí 20tr = 1 lần tránh lỗi.\" (ii) \"Hệ thống ra quyết định theo bạn 10 năm.\" (iii) \"Cây cầu giải tension mà trung tâm khác không có.\" — keyword?",opts:["Cả 3 Pain","(i) Pain neo theo chi phí pain. (ii) JTBD neo theo giá trị Job. (iii) Tension neo theo lập trường. Kết hợp = trang pricing mạnh","Cả 3 JTBD","Cả 3 Tension"],correct:1,explain:"3 lăng kính khác nhau cùng phục vụ pricing."},
+    {q:"Vai trò 3 keyword trong THIẾT KẾ KHÓA HỌC Davinci?",opts:["Chỉ cần JTBD","Chỉ cần Pain","JTBD = NỘI DUNG (việc khách làm được). Pain = CẢM XÚC (giữ động lực). Tension = CƠ CHẾ KỶ LUẬT (nhật ký bắt buộc, cộng đồng review). Mỗi keyword giải 1 lớp khác nhau","Chỉ cần Tension"],correct:2,explain:"Thiết kế khóa = cả 3: nội dung (JTBD), cảm xúc (Pain), kỷ luật (Tension). Thiếu 1 → yếu."},
+    {q:"Phát biểu nào HẤP DẪN NHẤT để xây chiến dịch — chứa đầy đủ JTBD + Pain + Tension?",opts:["\"Tôi muốn học đầu tư\"","\"Tôi đã lỗ 100tr, mỗi đêm 3h mở app run tay (Pain). Muốn có hệ thống, nhật ký, stop-loss, ngủ được (JTBD). Nhưng vừa muốn vào lệnh bù lỗ, vừa sợ mất nốt (Tension).\"","\"Nghe nói Davinci uy tín\"","\"Học phí bao nhiêu?\""],correct:1,explain:"Đầy đủ 3 lớp: Pain (hook) + JTBD (landing page) + Tension (brand story). Phát biểu vàng."}
+  ],
+  quiz2:null,
+  reflection:null
+}
+];
+
+// ═══ STATE ═══
+const S={
+  cur:0,
+  done:JSON.parse(localStorage.getItem(CK+'_done')||'[]'),
+  quiz:JSON.parse(localStorage.getItem(CK+'_quiz')||'{}'),
+  quiz2:JSON.parse(localStorage.getItem(CK+'_quiz2')||'{}'),
+  notes:JSON.parse(localStorage.getItem(CK+'_notes')||'{}'),
+  ref:JSON.parse(localStorage.getItem(CK+'_ref')||'{}'),
+};
+function save(){
+  localStorage.setItem(CK+'_done',JSON.stringify(S.done));
+  localStorage.setItem(CK+'_quiz',JSON.stringify(S.quiz));
+  localStorage.setItem(CK+'_quiz2',JSON.stringify(S.quiz2));
+  localStorage.setItem(CK+'_notes',JSON.stringify(S.notes));
+  localStorage.setItem(CK+'_ref',JSON.stringify(S.ref));
+}
+function markDone(id){if(!S.done.includes(id))S.done.push(id);save();rNav();uProg();}
+function toggleSB(){document.body.classList.toggle('open');}
+
+function rNav(){
+  let h='<div class="pl">Bài học</div>';
+  L.forEach((l,i)=>{
+    if(!l.step)return;
+    const done=S.done.includes(l.id),active=S.cur===i;
+    h+=`<div class="ni${done?' done':''}${active?' active':''}" onclick="goTo(${i})">
+      <div class="nd"></div><div class="nl">${l.step}. ${l.title}</div>
+    </div>`;
+  });
+  document.getElementById('nav').innerHTML=h;
+}
+function uProg(){
+  const d=S.done.length,pct=Math.round(d/TOTAL*100);
+  document.getElementById('pi').style.width=pct+'%';
+  document.getElementById('pt').textContent=`${d} / ${TOTAL} bài hoàn thành`;
+}
+function goTo(i){S.cur=i;rNav();rContent();window.scrollTo(0,0);}
+
+function rContent(){
+  const l=L[S.cur],el=document.getElementById('ct');
+  if(l.type==='ov'){el.innerHTML=rOv();return;}
+  el.innerHTML=rLesson(l);
+  initL(l);
+}
+
+function rOv(){
+  let h=`<div style="margin-bottom:24px">
+    <div class="ptag">Tổng quan</div>
+    <h2 class="ltitle">JTBD · Pain · Tension</h2>
+    <span class="stag">Marketing Cơ Bản — Davinci</span>
+  </div>
+  <div class="card ic">Cá nhân hoá cho: Davinci · Đào tạo đầu tư tài chính · ${S.done.length}/${TOTAL} bài hoàn thành</div>
+  <h3>Toàn bộ ${TOTAL} bài học</h3><div class="og">`;
+  L.filter(l=>l.step).forEach(l=>{
+    const idx=L.indexOf(l),done=S.done.includes(l.id);
+    h+=`<div class="oc${done?' done':''}" onclick="goTo(${idx})">
+      <div class="os">Bài ${l.step}</div>
+      <div class="ot">${l.title}</div>
+      <div class="ost ${done?'sdone':'stodo'}">${done?'✓ Hoàn thành':'Chưa học'}</div>
+    </div>`;
+  });
+  h+=`</div><div class="br"><button class="btn btn-g" onclick="goTo(1)">Bắt đầu học →</button></div>`;
+  return h;
+}
+
+function rLesson(l){
+  const done=S.done.includes(l.id);
+  let h=`<div style="margin-bottom:24px">
+    <div class="ptag">${l.ptag||''}</div>
+    <h2 class="ltitle">${l.title}</h2>
+    <span class="stag">Nguồn: ${l.srcL||''}</span>
+  </div>`;
+  // Concept
+  h+=`<div class="comp" id="c0-${l.id}">
+    <div class="card cc"><p>${(l.concept||'').replace(/\n/g,'<br>')}</p></div>
+    <button class="btn-r" onclick="rev(${l.id},0)">Tiếp tục đọc →</button>
+  </div>`;
+  // Body comps
+  (l.comps||[]).forEach((c,ci)=>{
+    h+=`<div class="comp hidden" id="cb-${l.id}-${ci}">${c.html||''}`;
+    if(ci===(l.comps.length-1)){
+      if(l.quiz&&l.quiz.length) h+=`<button class="btn-r" onclick="rev(${l.id},1)">Vào phần quiz →</button>`;
+    } else h+=`<button class="btn-r" onclick="revBC(${l.id},${ci})">Tiếp tục →</button>`;
+    h+=`</div>`;
+  });
+  // Quiz 1
+  if(l.quiz&&l.quiz.length){
+    const qLabel=l.quiz2?'Câu hỏi kiểm tra':'Quiz — Phân biệt 3 Keyword';
+    h+=`<div class="comp hidden" id="cq-${l.id}">
+      <h3>${qLabel}</h3>
+      <div class="qw">
+        <div class="qct" id="qc-${l.id}">Câu 1 / ${l.quiz.length}</div>
+        <div id="qb-${l.id}"></div>
+      </div>
+      <div class="qsb" id="qs-${l.id}">
+        <div class="sbig" id="qsn-${l.id}"></div>
+        <div class="smsg" id="qsm-${l.id}"></div>`;
+    if(l.quiz2&&l.quiz2.length) h+=`<button class="btn-r" style="margin-top:12px" onclick="rev(${l.id},2)">Vào Quiz Davinci →</button>`;
+    else if(l.reflection) h+=`<button class="btn-r" style="margin-top:12px" onclick="rev(${l.id},3)">Mở phần Reflection →</button>`;
+    else h+=`<button class="btn-r" style="margin-top:12px" onclick="showEl('cn2-${l.id}')">Hoàn thành →</button>`;
+    h+=`</div></div>`;
+  }
+  // Quiz 2 (Davinci)
+  if(l.quiz2&&l.quiz2.length){
+    h+=`<div class="comp hidden" id="cq2-${l.id}">
+      <h3>Quiz — Liên hệ Davinci</h3>
+      <div class="card ic" style="margin-bottom:14px"><strong>Davinci</strong> = đơn vị đào tạo đầu tư tài chính theo phương pháp Technical Analysis tại Đà Nẵng.</div>
+      <div class="qw">
+        <div class="qct" id="qc2-${l.id}">Câu 1 / ${l.quiz2.length}</div>
+        <div id="qb2-${l.id}"></div>
+      </div>
+      <div class="qsb" id="qs2-${l.id}">
+        <div class="sbig" id="qsn2-${l.id}"></div>
+        <div class="smsg" id="qsm2-${l.id}"></div>
+        <button class="btn-r" style="margin-top:12px" onclick="rev(${l.id},3)">Mở phần Reflection →</button>
+      </div>
+    </div>`;
+  }
+  // Reflection
+  if(l.reflection){
+    h+=`<div class="comp hidden" id="cref-${l.id}">
+      <h3>Reflection</h3>
+      <div class="card" style="padding:18px">
+        <p class="body" style="color:var(--gray);font-size:13px">Viết thật — không có câu trả lời đúng hay sai.</p>
+        <div id="ref-container-${l.id}"></div>
+      </div>
+    </div>`;
+  }
+  // Nav
+  h+=`<div class="comp hidden" id="cn2-${l.id}"><div class="br">`;
+  if(S.cur>1) h+=`<button class="btn" onclick="goTo(${S.cur-1})">← Bài trước</button>`;
+  h+=`<button class="btn btn-d${done?' fin':''}" id="bd-${l.id}" onclick="completL(${l.id})">${done?'✓ Đã hoàn thành':'Đánh dấu hoàn thành'}</button>`;
+  const ni=S.cur+1;
+  if(ni<L.length) h+=`<button class="btn btn-g" onclick="goTo(${ni})">Bài tiếp theo →</button>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+// ═══ REVEAL ═══
+function rev(lid,from){
+  const l=L.find(x=>x.id===lid);
+  if(from===0){
+    hideBtn('c0-'+lid);
+    showEl(`cb-${lid}-0`);
+  } else if(from===1){
+    hideBtn(`cb-${lid}-${(l.comps||[]).length-1}`);
+    const qc=document.getElementById(`cq-${lid}`);
+    if(qc){qc.classList.remove('hidden');rQ(l,0,'quiz','qb','qc');qc.scrollIntoView({behavior:'smooth',block:'start'});}
+  } else if(from===2){
+    const qc=document.getElementById(`cq2-${lid}`);
+    if(qc){qc.classList.remove('hidden');rQ(l,0,'quiz2','qb2','qc2');qc.scrollIntoView({behavior:'smooth',block:'start'});}
+  } else if(from===3){
+    const rc=document.getElementById(`cref-${lid}`);
+    if(rc){rc.classList.remove('hidden');initRef(l);rc.scrollIntoView({behavior:'smooth',block:'start'});}
+    showEl(`cn2-${lid}`);
+  }
+}
+function revBC(lid,ci){
+  hideBtn(`cb-${lid}-${ci}`);
+  showEl(`cb-${lid}-${ci+1}`);
+}
+function hideBtn(id){const el=document.getElementById(id);if(el){const b=el.querySelector('.btn-r');if(b)b.style.display='none';}}
+function showEl(id){const el=document.getElementById(id);if(el){el.classList.remove('hidden');el.scrollIntoView({behavior:'smooth',block:'start'});}}
+
+// ═══ QUIZ ENGINE ═══
+function rQ(l,qi,quizKey,bodyPrefix,ctPrefix){
+  const quizArr=l[quizKey];
+  document.getElementById(`${ctPrefix}-${l.id}`).textContent=`Câu ${qi+1} / ${quizArr.length}`;
+  const q=quizArr[qi];
+  let h=`<div class="qqt">${q.q}</div><div class="qos">`;
+  q.opts.forEach((o,oi)=>h+=`<button class="qb" id="${bodyPrefix}-${l.id}-${qi}-${oi}" onclick="ans(${l.id},${qi},${oi},'${quizKey}','${bodyPrefix}','${ctPrefix}')">${String.fromCharCode(65+oi)}. ${o}</button>`);
+  h+=`</div><div class="qfb" id="qf-${bodyPrefix}-${l.id}-${qi}"></div>`;
+  h+=`<div id="qn-${bodyPrefix}-${l.id}-${qi}" style="display:none;margin-top:12px">`;
+  if(qi<quizArr.length-1) h+=`<button class="btn btn-g" onclick="nxtQ(${l.id},${qi},'${quizKey}','${bodyPrefix}','${ctPrefix}')">Câu tiếp theo →</button>`;
+  else h+=`<button class="btn btn-g" onclick="finQ(${l.id},'${quizKey}','${bodyPrefix}','${ctPrefix}')">Xem kết quả →</button>`;
+  h+=`</div>`;
+  document.getElementById(`${bodyPrefix}-${l.id}`).innerHTML=h;
+}
+
+function ans(lid,qi,oi,quizKey,bodyPrefix,ctPrefix){
+  const l=L.find(x=>x.id===lid);
+  const storeKey=quizKey==='quiz'?'quiz':'quiz2';
+  if(!S[storeKey][lid])S[storeKey][lid]=new Array(l[quizKey].length).fill(null);
+  if(S[storeKey][lid][qi]!==null)return;
+  S[storeKey][lid][qi]=oi;save();
+  const q=l[quizKey][qi];
+  document.querySelectorAll(`[id^="${bodyPrefix}-${lid}-${qi}-"]`).forEach(b=>b.disabled=true);
+  const cb=document.getElementById(`${bodyPrefix}-${lid}-${qi}-${q.correct}`);
+  if(cb)cb.classList.add('correct');
+  if(oi!==q.correct){const wb=document.getElementById(`${bodyPrefix}-${lid}-${qi}-${oi}`);if(wb)wb.classList.add('wrong');}
+  const fb=document.getElementById(`qf-${bodyPrefix}-${lid}-${qi}`);
+  if(fb){const ok=oi===q.correct;fb.className=`qfb ${ok?'ok':'no'}`;fb.textContent=(ok?'':'Chưa đúng. ')+q.explain;}
+  const nxt=document.getElementById(`qn-${bodyPrefix}-${lid}-${qi}`);
+  if(nxt)nxt.style.display='block';
+}
+function nxtQ(lid,qi,quizKey,bodyPrefix,ctPrefix){const l=L.find(x=>x.id===lid);rQ(l,qi+1,quizKey,bodyPrefix,ctPrefix);}
+function finQ(lid,quizKey,bodyPrefix,ctPrefix){
+  const l=L.find(x=>x.id===lid);
+  const storeKey=quizKey==='quiz'?'quiz':'quiz2';
+  const qa=S[storeKey][lid]||[];
+  const score=qa.filter((a,i)=>l[quizKey][i]&&a===l[quizKey][i].correct).length;
+  const qb=document.getElementById(`${bodyPrefix}-${lid}`);if(qb)qb.style.display='none';
+  const sfx=quizKey==='quiz'?'':'2';
+  document.getElementById(`qc${sfx}-${lid}`).textContent='Kết quả';
+  const box=document.getElementById(`qs${sfx}-${lid}`);if(!box)return;
+  box.style.display='block';
+  document.getElementById(`qsn${sfx}-${lid}`).textContent=`${score} / ${l[quizKey].length}`;
+  const pct=score/l[quizKey].length;
+  const msg=pct<0.4?'Xem lại lý thuyết rồi thử lại!':pct<0.6?'Còn vài chỗ cần củng cố.':pct<0.8?'Khá tốt!':pct<1?'Tốt lắm!':'Xuất sắc! Nắm vững rồi.';
+  document.getElementById(`qsm${sfx}-${lid}`).textContent=msg;
+}
+
+// ═══ REFLECTION ENGINE ═══
+function initRef(l){
+  const container=document.getElementById(`ref-container-${l.id}`);
+  if(container.dataset.init)return;
+  container.dataset.init='1';
+  if(!S.ref[l.id])S.ref[l.id]={};
+  const steps=[];
+  for(let i=0;i<l.reflection.current;i++) steps.push({group:'current',label:i===0?'3 điều bạn Lầm Tưởng':null,idx:i});
+  for(let i=0;i<l.reflection.action;i++) steps.push({group:'action',label:i===0?'3 điều bạn sẽ Thay Đổi':null,idx:i});
+  renderRefStep(l,container,steps,0);
+}
+
+function renderRefStep(l,container,steps,si){
+  if(si>=steps.length){
+    const d=document.createElement('div');
+    d.className='comp';
+    d.innerHTML=`<button class="btn btn-g" onclick="saveRef(${l.id})" style="margin-top:10px">Lưu Reflection</button><div id="ref-saved-${l.id}" style="font-size:12px;color:var(--green);margin-top:6px;display:none">Đã lưu!</div>`;
+    container.appendChild(d);
+    return;
+  }
+  const step=steps[si];
+  if(step.label){
+    const lbl=document.createElement('div');
+    lbl.className='ref-label '+step.group;
+    lbl.style.marginTop=si>0?'18px':'0';
+    lbl.textContent=step.label;
+    container.appendChild(lbl);
+  }
+  const item=document.createElement('div');
+  item.className='ref-item comp';
+  const saved=S.ref[l.id]?.[`r${si}`]||'';
+  item.innerHTML=`<textarea class="nta" rows="2" placeholder="" id="ref-${l.id}-${si}" style="min-height:55px">${saved}</textarea>`;
+  container.appendChild(item);
+  if(si<steps.length-1){
+    const btnWrap=document.createElement('div');
+    const btn=document.createElement('button');
+    btn.className='btn-r';
+    btn.textContent='Tiếp →';
+    btn.onclick=()=>{
+      const ta=document.getElementById(`ref-${l.id}-${si}`);
+      if(!ta.value.trim()){ta.style.borderColor='var(--orange)';ta.focus();setTimeout(()=>ta.style.borderColor='var(--border)',1500);return;}
+      S.ref[l.id][`r${si}`]=ta.value;save();
+      btn.style.display='none';
+      renderRefStep(l,container,steps,si+1);
+    };
+    btnWrap.appendChild(btn);
+    container.appendChild(btnWrap);
+  } else {
+    const ta=document.getElementById(`ref-${l.id}-${si}`);
+    ta.addEventListener('input',()=>{S.ref[l.id][`r${si}`]=ta.value;save();});
+    setTimeout(()=>renderRefStep(l,container,steps,si+1),100);
+  }
+}
+
+function saveRef(lid){
+  const l=L.find(x=>x.id===lid);
+  for(let i=0;i<6;i++){
+    const ta=document.getElementById(`ref-${lid}-${i}`);
+    if(ta)S.ref[lid][`r${i}`]=ta.value;
+  }
+  save();
+  document.getElementById(`ref-saved-${lid}`).style.display='block';
+}
+
+function completL(id){
+  markDone(id);
+  const b=document.getElementById(`bd-${id}`);
+  if(b){b.classList.add('fin');b.textContent='✓ Đã hoàn thành';}
+}
+
+// ═══ INIT / RESTORE ═══
+function initL(l){
+  const qa=S.quiz[l.id];
+  const qa2=S.quiz2[l.id];
+  if(!qa&&!qa2)return;
+  const c0=document.getElementById(`c0-${l.id}`);if(c0){hideBtn(`c0-${l.id}`);}
+  (l.comps||[]).forEach((_,i)=>{const el=document.getElementById(`cb-${l.id}-${i}`);if(el){el.classList.remove('hidden');hideBtn(`cb-${l.id}-${i}`);}});
+  if(qa){
+    const qc=document.getElementById(`cq-${l.id}`);if(qc)qc.classList.remove('hidden');
+    const allDone=qa.every(a=>a!==null);
+    if(allDone){finQ(l.id,'quiz','qb','qc');}
+    else{const nxt=qa.findIndex(a=>a===null);rQ(l,nxt,'quiz','qb','qc');}
+  }
+  if(qa2){
+    const qc2=document.getElementById(`cq2-${l.id}`);if(qc2)qc2.classList.remove('hidden');
+    const allDone2=qa2.every(a=>a!==null);
+    if(allDone2){finQ(l.id,'quiz2','qb2','qc2');}
+    else{const nxt=qa2.findIndex(a=>a===null);rQ(l,nxt,'quiz2','qb2','qc2');}
+  }
+  if(S.ref[l.id]&&Object.keys(S.ref[l.id]).length>0){
+    const rc=document.getElementById(`cref-${l.id}`);if(rc)rc.classList.remove('hidden');
+    initRef(l);
+  }
+  showEl(`cn2-${l.id}`);
+}
+
+rNav();uProg();rContent();
+</script>
+</body>
+</html>
