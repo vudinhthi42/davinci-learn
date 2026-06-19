@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davinci Đà Nẵng — Branding Playbook</title>
+<style>
+:root{
+  --bg:#f8f7f4;
+  --sidebar:#1e1e1c;
+  --card:#fff;
+  --border:#e5e3dc;
+  --green:#1D9E75;
+  --green-lite:#E1F5EE;
+  --green-dark:#085041;
+  --text:#3a3a38;
+  --amber:#b45309;
+  --amber-lite:#fef3c7;
+  --red:#c0392b;
+  --red-lite:#fde2e1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;
+}
+.layout{display:flex;min-height:100vh}
+#sb{
+  width:300px;background:var(--sidebar);color:#e8e6df;padding:26px 20px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;transition:margin-left .3s ease;flex-shrink:0;
+}
+#sb.hidden{margin-left:-300px}
+#sb .logo{font-size:18px;font-weight:800;letter-spacing:-.3px;color:#fff}
+#sb .sub{font-size:12px;opacity:.6;margin:4px 0 22px;line-height:1.4}
+.pbox{background:rgba(255,255,255,.05);border-radius:10px;padding:13px;margin-bottom:18px}
+.pbox .lbl{font-size:10.5px;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.pbox .stat{font-size:16px;font-weight:700;color:#fff}
+.pbar{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:9px}
+.pfill{height:100%;background:var(--green);transition:width .4s}
+.lk{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 11px;margin-bottom:3px;
+  border-radius:7px;cursor:pointer;font-size:13px;border:none;color:#cfcdc4;
+  width:100%;text-align:left;background:transparent;transition:background .15s;
+}
+.lk:hover{background:rgba(255,255,255,.06);color:#fff}
+.lk.active{background:rgba(29,158,117,.18);color:#fff;font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%;background:#4a4a47;flex-shrink:0;margin-top:5px}
+.dot.done{background:var(--green)}
+.dot.active{background:#ecc94b;box-shadow:0 0 6px rgba(236,201,75,.5)}
+
+#tg{
+  position:fixed;top:14px;left:14px;z-index:1000;background:var(--sidebar);color:#fff;
+  border:none;width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);display:none;
+}
+#sb.hidden ~ .main #tg{display:block}
+.tgi{background:transparent;border:none;color:#9a9893;cursor:pointer;font-size:14px;margin-bottom:10px;padding:0}
+.tgi:hover{color:#fff}
+
+.main{flex:1;padding:48px 52px;max-width:900px;width:100%}
+.hdr{margin-bottom:24px}
+.tag{
+  display:inline-block;padding:4px 11px;border-radius:999px;font-size:10.5px;
+  font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-right:6px;
+}
+.tag.p{background:var(--green-lite);color:var(--green-dark)}
+.tag.s{background:#f1efe7;color:#6b6963}
+.ttl{font-size:30px;font-weight:800;margin-top:12px;line-height:1.25;letter-spacing:-.5px;color:#1f1f1d}
+
+.card{background:var(--card);border-radius:14px;padding:26px;margin-bottom:18px;border:1px solid var(--border);animation:fi .3s ease both}
+.cc{background:var(--green-lite);border-left:4px solid var(--green);border:none;border-left:4px solid var(--green)}
+.cc h3{font-size:13px;color:var(--green-dark);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;font-weight:800}
+.cc .body{font-size:18px;line-height:1.55;color:var(--green-dark);font-weight:600;white-space:pre-line}
+.card h3{font-size:18px;font-weight:800;color:#1f1f1d;margin-bottom:12px}
+.card .body{font-size:15.5px;line-height:1.65}
+.card .body p{margin-bottom:10px}
+.card .body ul,.card .body ol{margin-left:22px;margin-bottom:10px}
+.card .body li{margin-bottom:5px}
+.card .body strong{color:var(--green-dark)}
+
+.t{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;border-radius:8px;overflow:hidden}
+.t th{background:var(--green);color:#fff;padding:11px 13px;text-align:left;font-weight:700;font-size:13px}
+.t td{padding:10px 13px;border-bottom:1px solid var(--border)}
+.t tr:nth-child(even) td{background:var(--green-lite)}
+
+.btn-r,.btn-g,.btn-x{
+  display:inline-block;padding:11px 22px;border-radius:9px;font-size:14px;font-weight:700;
+  cursor:pointer;border:none;transition:transform .08s,filter .15s,background .15s;letter-spacing:.2px;
+  font-family:inherit;
+}
+.btn-r{background:var(--green-lite);color:var(--green-dark);border:1.5px solid var(--green)}
+.btn-r:hover{background:#cfecde}
+.btn-g{background:var(--green);color:#fff}
+.btn-g:hover{filter:brightness(1.08)}
+.btn-x{background:#efece5;color:#5b5852;border:1px solid var(--border)}
+.btn-x:hover{background:#e5e2da}
+.btn-row{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+
+.qprog{font-size:12.5px;color:#7a7872;margin-bottom:10px;font-weight:600;letter-spacing:.3px}
+.qq{font-size:16px;font-weight:600;margin-bottom:16px;line-height:1.5;color:#1f1f1d}
+.opt{
+  padding:12px 17px;background:#f7f5ee;border:1.5px solid var(--border);border-radius:9px;
+  cursor:pointer;transition:all .15s;font-size:14.5px;margin-bottom:8px;
+}
+.opt:hover{background:#eef3ee;border-color:var(--green)}
+.opt.sel{background:#eef3ee;border-color:var(--green)}
+.opt.ok{background:var(--green-lite);border-color:var(--green);color:var(--green-dark);font-weight:600}
+.opt.no{background:var(--red-lite);border-color:var(--red);color:var(--red)}
+.opt.dis{cursor:default;pointer-events:none}
+.qfb{padding:13px 17px;border-radius:9px;margin-top:12px;font-size:14px;line-height:1.55}
+.qfb.ok{background:var(--green-lite);border-left:3px solid var(--green);color:var(--green-dark)}
+.qfb.no{background:#fff7ed;border-left:3px solid var(--amber);color:#7c2d12}
+.qfb strong{font-weight:800}
+
+.qres{text-align:center;padding:24px 18px}
+.qres .sc{font-size:50px;font-weight:800;color:var(--green-dark)}
+.qres .lbl{font-size:13px;color:#7a7872;margin-top:5px}
+.qres .msg{margin-top:14px;font-size:15.5px}
+
+.ref-block{margin-bottom:14px}
+.ref-block .ti{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.ref-block.lt .ti{color:var(--amber)}
+.ref-block.tc .ti{color:var(--green-dark)}
+.ref-block textarea{
+  width:100%;min-height:72px;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;
+  font-family:inherit;font-size:14.5px;resize:vertical;line-height:1.5;background:#fbfaf6;
+}
+.ref-block textarea:focus{outline:none;border-color:var(--green);background:#fff}
+.ref-block.lt textarea{border-color:#fcd34d;background:#fffbeb}
+.ref-block.lt textarea:focus{border-color:var(--amber)}
+
+.nav-buttons{display:flex;justify-content:space-between;gap:10px;margin-top:28px;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap}
+
+.ov-hero{
+  background:linear-gradient(135deg,#1e1e1c 0%,#34342f 100%);
+  color:#fff;padding:38px;border-radius:16px;margin-bottom:22px;
+}
+.ov-hero h1{font-size:28px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
+.ov-hero p{font-size:15.5px;opacity:.88;line-height:1.6}
+.ov-hero .meta{font-size:12.5px;opacity:.55;margin-top:13px;font-style:italic}
+
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px;margin-top:18px}
+.ov-c{
+  background:var(--card);padding:18px;border-radius:11px;border:1.5px solid var(--border);
+  cursor:pointer;transition:all .15s;
+}
+.ov-c:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.ov-c .pt{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#7a7872;font-weight:700}
+.ov-c h3{font-size:15px;margin:5px 0 4px;color:#1f1f1d;font-weight:700}
+.ov-c .meta{font-size:12px;color:#9a9893;margin-top:7px}
+.ov-c .bdg{
+  display:inline-block;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;
+  background:var(--green-lite);color:var(--green-dark);
+}
+.ov-c .bdg.todo{background:#fef3c7;color:#92400e}
+
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+@media(max-width:880px){
+  #sb{position:fixed;z-index:100;box-shadow:4px 0 16px rgba(0,0,0,.15)}
+  #sb.hidden{margin-left:-300px}
+  #tg{display:block!important}
+  .main{padding:64px 20px 36px}
+  .ttl{font-size:23px}
+  .ov-hero{padding:26px}
+  .ov-hero h1{font-size:21px}
+}
+</style>
+</head>
+<body>
+
+<button id="tg" onclick="toggleSB()">&#9776;</button>
+
+<div class="layout">
+  <aside id="sb">
+    <button class="tgi" onclick="toggleSB()">&times; Ẩn menu</button>
+    <div class="logo">Davinci Branding</div>
+    <div class="sub">Áp dụng Davinci Đà Nẵng — Trader Master Program</div>
+
+    <div class="pbox">
+      <div class="lbl">Tiến độ</div>
+      <div class="stat"><span id="dn">0</span>/<span id="ttl">0</span> bài hoàn thành</div>
+      <div class="pbar"><div class="pfill" id="pf" style="width:0%"></div></div>
+    </div>
+
+    <div id="ls"></div>
+  </aside>
+
+  <main class="main">
+    <div id="ct"></div>
+  </main>
+</div>
+
+<script>
+// ============================================================
+// COURSE DATA — chỉ thêm vào L[], engine không cần đổi
+// ============================================================
+const PREFIX = "davinci_branding";
+const COURSE_TITLE = "Branding Playbook · Davinci Đà Nẵng";
+
+const L = [
+  {
+    id: 1, step: 1,
+    title: 'Tại sao Product không đủ',
+    ptag: 'Phase 1 — Branding là gì?', srcL: 'Branding Playbook',
+    concept: 'Người bình thường bán SẢN PHẨM. Người giàu xây BRAND.\nBrand là thứ khiến khách hàng KHÔNG cân nhắc đối thủ, kể cả khi đối thủ trả giá cao hơn.',
+    comps: [
+      { html: `<h3>Định nghĩa</h3>
+        <div class="body">
+        <p><strong>PRODUCT</strong> = thứ bạn cung cấp (giáo trình, công cụ, dịch vụ). Là cái khách hàng nhận về.</p>
+        <p><strong>BRAND</strong> = ý nghĩa khách hàng gán cho bạn trong tâm trí họ. Là cái khách hàng CẢM nhận về bạn.</p>
+        <p><strong>COOL FACTOR</strong> = lý do khách hàng KHOE về bạn. Họ không khoe vì sản phẩm tốt — họ khoe vì gắn tên mình với bạn khiến họ trông tốt hơn trong mắt cộng đồng họ.</p>
+        <p style="margin-top:14px"><strong>3 cách duy nhất để tăng giá trị doanh nghiệp:</strong></p>
+        <ol>
+          <li><strong>Lower CAC</strong> — có thêm khách với chi phí thấp hơn</li>
+          <li><strong>Raise LTV</strong> — mỗi khách đáng giá hơn</li>
+          <li><strong>Lower Risk</strong> — đảm bảo nó tiếp tục diễn ra (loyalty)</li>
+        </ol>
+        <p style="margin-top:10px">Chỉ có <strong>BRANDING</strong> làm được cả 3 cùng lúc.</p>
+        </div>` },
+      { html: `<h3>Bảng so sánh — Product Business vs Brand Business</h3>
+        <table class="t">
+          <tr><th>Tiêu chí</th><th>Product Business</th><th>Brand Business</th></tr>
+          <tr><td>Cách bán</td><td>Phải năn nỉ, giải thích, chứng minh từng khách</td><td>Khách tự đến, tự đăng ký, tự khoe</td></tr>
+          <tr><td>Cảm xúc khách</td><td>"Sản phẩm này có gì hay?"</td><td>"Tôi MUỐN gắn tên mình với họ"</td></tr>
+          <tr><td>Định giá</td><td>Cạnh tranh theo đối thủ, dễ bị ép giảm</td><td>Đặt giá riêng, charge premium được</td></tr>
+          <tr><td>Khi đối thủ hạ giá</td><td>Mất khách hàng loạt</td><td>Khách vẫn ở lại</td></tr>
+          <tr><td>Khả năng scale</td><td>Tốn công sức tuyến tính</td><td>Compound, scale exponential</td></tr>
+          <tr><td>Referral</td><td>Phải tặng thưởng cao mới có</td><td>Khách tự giới thiệu, miễn phí</td></tr>
+        </table>` },
+      { html: `<h3>Ví dụ đa ngành</h3>
+        <table class="t">
+          <tr><th>Ngành</th><th>Product business (cũ)</th><th>Brand business (mới)</th></tr>
+          <tr><td>F&amp;B</td><td>Quán cà phê pha ngon, hạt rang xịn — không ai chụp hình</td><td>Starbucks — người ta CHỤP cốc cà phê đăng feed như flex thành tựu</td></tr>
+          <tr><td>Thời trang</td><td>Xưởng may áo trắng cotton 100%, dệt chuẩn EU</td><td>Áo Uniqlo cùng vải, cùng form — khách khoe phong cách "minimal"</td></tr>
+          <tr><td>Công nghệ</td><td>Tai nghe Sony XM5 chất âm tốt nhất phân khúc</td><td>AirPods — khách đeo ra đường khoe đẳng cấp Apple user</td></tr>
+          <tr><td>Tài chính (Davinci)</td><td>Khoá Technical Analysis bài bản, giảng viên 10 năm — học viên không referral</td><td>Davinci Trader Master — học viên tag mình vào post tốt nghiệp, khoe cộng đồng</td></tr>
+        </table>
+        <div class="body" style="margin-top:14px">
+        <p><strong>Câu chuyện chuỗi cà phê specialty:</strong> Một nhà sáng lập có hạt rang được giới chuyên môn xếp "ngon nhất Việt Nam". Hoa hồng affiliate 40% (đối thủ chỉ 10–20%). Food blogger thân thiết — đang kiếm 200tr/tháng nhờ quảng bá đối thủ — vẫn không chịu đổi. Lý do? Brand đối thủ "cool" hơn — gắn tên food blogger vào đó làm họ trông sang trong mắt audience. Cùng logic với học viên Davinci: khen ≠ muốn khoe.</p>
+        </div>` }
+    ],
+    quiz: [
+      { q: "Câu chuyện chuỗi cà phê specialty: food blogger không đổi sang brand cà phê tốt hơn dù hoa hồng gấp 4. Vấn đề thật là gì?",
+        opts: ["Hoa hồng vẫn chưa đủ cao","Food blogger lười không chịu đổi","Brand cũ 'cool' hơn — gắn tên vào brand cũ làm food blogger trông sang hơn","Cà phê mới chưa đủ ngon"],
+        correct: 2,
+        explain: "Khi hoa hồng đã 40% (gấp đôi đối thủ) mà vẫn không đổi → vấn đề KHÔNG phải tiền. Vấn đề là cool factor: gắn tên mình vào brand cũ làm food blogger trông cooler trong mắt audience của họ." },
+      { q: "Theo framework, 3 cách duy nhất tăng giá trị business là gì?",
+        opts: ["Tăng giá, tăng nhân sự, tăng marketing","Tăng số khách, tăng doanh thu, tăng lợi nhuận","Lower CAC, Raise LTV, Lower Risk","Brand, Marketing, Sales"],
+        correct: 2,
+        explain: "3 levers chính của business value: CAC (chi phí có khách), LTV (giá trị mỗi khách), Risk (đảm bảo lặp lại). Branding là CÁCH DUY NHẤT làm được cả 3 cùng lúc." },
+      { q: "'Product business là cái bẫy' vì lý do gì?",
+        opts: ["Vì làm product tốt rất tốn tiền","Vì khách hàng không phân biệt được tốt xấu","Vì bạn phải BEG, BORROW, PROMISE để bán mỗi đơn — không scale được","Vì product dễ bị copy"],
+        correct: 2,
+        explain: "Product-only nghĩa là mỗi khách mới phải convince từ đầu. Brand-driven nghĩa là khách đã được convince TRƯỚC khi gặp bạn — chỉ đến để confirm." },
+      { q: "'Cool Factor' trong branding nghĩa là gì?",
+        opts: ["Brand có thiết kế đẹp, hiện đại","Brand được influencer khen","Khách cảm thấy GẮN TÊN MÌNH với brand làm họ trông tốt hơn trong mắt người khác","Brand có quảng cáo viral nhiều người xem"],
+        correct: 2,
+        explain: "Cool factor = self-image của khách. Khách khoe brand vì brand làm họ trông sang/giỏi/cool trong mắt cộng đồng họ. Đây là động lực sâu hơn product quality." },
+      { q: "'You only get one name. Invest accordingly.' có nghĩa gì?",
+        opts: ["Phải đặt tên brand hay, dễ nhớ","Mỗi proof/testimonial/case study public ra đều xây dựng HOẶC phá hủy brand — không có vùng trung lập","Phải đăng ký bản quyền thương hiệu sớm","Phải có 1 brand duy nhất, không tách sub-brand"],
+        correct: 1,
+        explain: "Một cái tên = không có 'thử nghiệm tạm'. Mỗi pairing bạn public ra (testimonial, KOL, content) đều bồi đắp hoặc rút đi từ tài khoản brand của bạn." },
+      { q: "Khi brand mạnh, điều nào KHÔNG đúng?",
+        opts: ["Học viên referral free","Có thể charge premium","Đối thủ vẫn dễ dàng kéo khách bằng giá rẻ","Top talent muốn về làm việc"],
+        correct: 2,
+        explain: "Brand mạnh tạo ra 'replacement cost' cao — khách KHÔNG dễ rời sang đối thủ giá rẻ. Đây chính là Buffett's pricing power test." }
+    ],
+    quiz2: [
+      { q: "Học viên Trader Master Davinci vừa tốt nghiệp khen lớp xịn nhưng KHÔNG chịu post lên Facebook giới thiệu. Vấn đề THẬT là gì?",
+        opts: ["Sản phẩm (giáo trình TA) chưa đủ tốt","Học viên lười, không có động lực","Davinci chưa có 'cool factor' khiến học viên muốn KHOE về việc mình học ở đây","Học viên không hiểu giá trị tiền họ bỏ ra"],
+        correct: 2,
+        explain: "Cùng câu chuyện cà phê specialty: khen ≠ muốn khoe. Học viên chỉ khoe nếu nói tên Davinci làm họ trông sang hơn trong mắt cộng đồng trader." },
+      { q: "Đối thủ trả 30% hoa hồng referral, Davinci trả 50%. Học viên cũ vẫn referral cho đối thủ. Tại sao?",
+        opts: ["Hoa hồng Davinci vẫn chưa đủ cao","Học viên cũ không biết chương trình referral","Brand đối thủ 'cool' hơn — giới thiệu để được nhìn nhận là 'người sành đầu tư'","Cần làm marketing affiliate mạnh hơn"],
+        correct: 2,
+        explain: "Story cà phê specialty: 40% hoa hồng (gấp đôi) vẫn không chuyển bạn. Vì khách giới thiệu KHÔNG chỉ vì tiền — họ giới thiệu thứ làm họ trông sang trong mắt người được giới thiệu." },
+      { q: "Để collect testimonial cho Trader Master Davinci, cách nào đầu tư đúng vào 'cool factor'?",
+        opts: ["Tặng học viên 500k nếu họ quay testimonial","Tạo background đẹp + hashtag riêng #DavinciTraderMaster — học viên post lên feed trông như khoe thành tựu cá nhân","Yêu cầu testimonial là điều kiện bắt buộc trong hợp đồng học","In testimonial lên brochure phát cho khách mới"],
+        correct: 1,
+        explain: "Cách B biến testimonial từ 'làm ơn cho Davinci' thành 'flex cho bản thân'. Đây chính là cool factor đầu tư đúng chỗ — học viên dán mình vào brand vì việc dán đó làm họ TRÔNG TỐT." },
+      { q: "Học viên cũ có equity curve before/after ấn tượng (từ thua lỗ → lãi 12%/tháng). Bước SAI nên tránh khi marketing là gì?",
+        opts: ["Hỏi xin phép họ chụp ảnh equity curve dùng làm marketing","Đăng case study chi tiết về kết quả của họ","Chỉ tập trung viết về 'giáo trình TA chuẩn quốc tế' khi marketing","Tag họ trong post và làm họ trông như nhân vật chính"],
+        correct: 2,
+        explain: "Tập trung vào giáo trình = product business. Cần biến học viên thành ngôi sao trong câu chuyện — pairing Davinci với HÌNH ẢNH một trader thành công. Đó là branding." },
+      { q: "Theo 3 cách tăng giá trị business, brand mạnh giúp Davinci đạt cụ thể điều nào?",
+        opts: ["Chỉ giảm CAC (quảng cáo rẻ hơn)","Chỉ tăng LTV (học viên đăng ký khoá nâng cao)","Cả 3: giảm CAC (referral free), tăng LTV (khoá nâng cao), giảm Risk (học viên loyal không so sánh đối thủ)","Chỉ giảm Risk"],
+        correct: 2,
+        explain: "Đây là điểm cốt lõi: brand mạnh đánh CẢ 3 cùng lúc. Đó là tại sao branding là cách duy nhất tăng business value bền vững — testimonial giảm CAC, case study tăng LTV, brand identity giảm Risk." },
+      { q: "Linh (marketing lead Davinci) sắp record 5 testimonial video. Câu hỏi quan trọng nhất cần trả lời TRƯỚC khi record là gì?",
+        opts: ["Quay ở studio nào để video đẹp nhất?","Học viên sẽ trông như 'trader thành công' trong cộng đồng đầu tư ra sao sau khi post video này lên feed của họ?","Học viên thích nói gì về Davinci?","Làm thế nào để video viral nhất?"],
+        correct: 1,
+        explain: "Đây là test cool factor: nếu video làm học viên trông sang trên feed của họ → tự chia sẻ + giúp brand. Nếu chỉ là 'khen Davinci' → họ ngần ngại post. Câu hỏi cốt lõi của branding." }
+    ],
+    reflection: { current: 3, action: 3 }
+  },
+  {
+    id: 2, step: 2,
+    title: 'Branding vs Advertising — Reach, Influence, Direction',
+    ptag: 'Phase 1 — Branding là gì?', srcL: 'Branding Playbook',
+    concept: 'Advertising = ai BIẾT bạn. Branding = họ NGHĨ GÌ khi biết bạn.\nĐo brand bằng 2 biến: Influence (đổi hành vi) + Direction (tiến tới hay xa).',
+    comps: [
+      { html: `<h3>Định nghĩa — 3 thước đo brand</h3>
+        <div class="body">
+        <p><strong>REACH</strong> = bao nhiêu người BIẾT về bạn. Đây là metric của <em>advertising</em>.</p>
+        <p><strong>INFLUENCE</strong> = khả năng người tiếp xúc với brand THAY ĐỔI HÀNH VI. Đây là metric của <em>branding</em>.</p>
+        <p><strong>DIRECTION</strong> = họ tiến TỚI bạn hay tiến XA bạn. Cũng là metric của <em>branding</em>.</p>
+        <p style="margin-top:14px"><strong>Câu chuyện con bò</strong> — entrepreneur đầu tiên dùng branding là dân chăn bò: họ đóng dấu lên bò để người khác nhận diện.</p>
+        <ul>
+          <li><strong>No Brand:</strong> Bạn thấy con bò, "Hello cow" → bỏ đi. Vô hình.</li>
+          <li><strong>Good Brand:</strong> Đó là bò của Bill — bạn thích Bill → bạn dắt bò về cho Bill.</li>
+          <li><strong>Bad Brand:</strong> Đó là bò của Bill — bạn ghét Bill → bạn để bò lạc, hoặc... ăn thịt nó.</li>
+        </ul>
+        <p>Cả 3 đều thay đổi hành vi. Brand QUYẾT ĐỊNH hành vi của người tiếp xúc.</p>
+        <p style="margin-top:14px"><strong>"There's no such thing as bad publicity" — Sai.</strong> Câu đúng là:</p>
+        <p style="text-align:center;font-weight:800;color:var(--green-dark);font-size:16px;margin:10px 0">Good &gt; Bad &gt; None. Lots of good &gt; Everything.</p>
+        </div>` },
+      { html: `<h3>Ma trận 2×2 — Ad tốt/xấu × Brand tốt/xấu</h3>
+        <table class="t">
+          <tr><th></th><th>Brand Tốt</th><th>Brand Xấu</th></tr>
+          <tr><td><strong>Ad Tốt</strong></td><td>Mọi người biết. Mọi người thích. (Tối ưu)</td><td>Mọi người biết. Họ ghét. (Pepsi Kendall — lỗ)</td></tr>
+          <tr><td><strong>Ad Kém</strong></td><td>Ít người biết. Ai biết thì thích. (Cần scale)</td><td>Không ai biết. Không ai care. (Sắp chết)</td></tr>
+        </table>
+        <div class="body" style="margin-top:14px">
+        <p>4 ô có 8 vị trí cụ thể (kết hợp với Direction TỚI hay XA). Vị trí phải TRÁNH bằng mọi giá:</p>
+        <p><strong>Terrorist Position</strong> — High Reach + High Influence + Direction AWAY. Nghĩa là: nhiều người biết, tin chắc, và GHÉT. Mỗi đồng marketing chi tiếp = đẩy brand chết nhanh hơn.</p>
+        </div>` },
+      { html: `<h3>Ví dụ đa ngành — Ad tốt + Brand xấu</h3>
+        <table class="t">
+          <tr><th>Ngành</th><th>Tình huống (Ad tốt, Brand xấu)</th><th>Hậu quả</th></tr>
+          <tr><td>F&amp;B</td><td>Pepsi × Kendall Jenner: ad Kendall đưa Pepsi cho cảnh sát giữa biểu tình. Hàng trăm triệu view.</td><td>Doanh số mảng giảm, ad gỡ trong 6 ngày, ảnh hưởng brand 1+ năm</td></tr>
+          <tr><td>Bia / FMCG</td><td>Bud Light × KOL gây tranh cãi (2023): chiến dịch hàng triệu impression</td><td>Mất ~25% doanh số mảng bia phổ thông tại Mỹ trong 6 tháng</td></tr>
+          <tr><td>Tài chính (Davinci)</td><td>Davinci hợp tác KOL chuyên lùa gà crypto vì họ có 500k follower, ad 100k views</td><td>Audience trader nghiêm túc xa lánh, học viên cũ ngại tag mình, brand bị gắn nhãn "lừa đảo"</td></tr>
+        </table>
+        <div class="body" style="margin-top:14px">
+        <p><strong>Bài học cho Davinci:</strong> Khi đăng testimonial học viên, đừng nghĩ "miễn là có người xem". Hỏi 3 câu trước khi post:</p>
+        <ol>
+          <li><strong>Reach:</strong> Bao nhiêu nhà đầu tư tiềm năng sẽ thấy?</li>
+          <li><strong>Influence:</strong> Có khiến họ thay đổi hành vi (đăng ký tư vấn) không?</li>
+          <li><strong>Direction:</strong> Họ tiến TỚI Davinci hay XA Davinci?</li>
+        </ol>
+        </div>` }
+    ],
+    quiz: [
+      { q: "Đo advertising bằng bao nhiêu biến chính?",
+        opts: ["2 biến","1 biến — chỉ Reach","3 biến — Reach, Influence, Direction","5 biến"],
+        correct: 1,
+        explain: "Advertising chỉ đo 1 biến: REACH (số người biết). Influence và Direction thuộc về branding, không phải advertising." },
+      { q: "Đo branding bằng bao nhiêu biến chính?",
+        opts: ["1 biến — chỉ Reach","2 biến — Influence + Direction","3 biến — Reach, Influence, Direction","Branding không đo được, chỉ cảm giác"],
+        correct: 1,
+        explain: "Branding đo 2 biến: INFLUENCE (khả năng đổi hành vi) + DIRECTION (tiến TỚI hay XA). Reach là metric của advertising." },
+      { q: "Câu 'There's no such thing as bad publicity' được sửa đúng thành:",
+        opts: ["Bất kỳ ad nào cũng tốt vì ai cũng cần awareness","Good > Bad > None. Lots of good > Everything","Bad publicity là cách phát triển nhanh nhất","Chỉ ad tốt mới đáng làm, ad xấu là tự sát"],
+        correct: 1,
+        explain: "Bad publicity vẫn TỐT HƠN no publicity (vì hiếm khi 100% người ghét), nhưng good publicity luôn tốt hơn bad. Và 'lots of good' overwhelm tất cả — đây là chiến lược an toàn nhất." },
+      { q: "'Terrorist position' trên brand matrix là vị trí nào?",
+        opts: ["Low Reach + Low Influence","High Reach + Low Influence","High Reach + High Influence + Direction AWAY (nhiều người biết + tin chắc + ghét)","Low Reach + High Influence"],
+        correct: 2,
+        explain: "Terrorist position: nhiều người biết, tin chắc, và GHÉT. Mỗi đồng marketing chi tiếp = đẩy brand chết nhanh hơn. Đây là vị trí phải tránh bằng mọi giá." },
+      { q: "Metric tin cậy nhất để đo 'Direction' của 1 post testimonial là gì?",
+        opts: ["Số like trên post","Số comment tích cực","Số người INBOX/LIÊN HỆ sau khi thấy post — vì hành vi thực mới = direction thực","Số share"],
+        correct: 2,
+        explain: "Direction = hành vi tiến TỚI hay XA. Like/share là proxy mơ hồ. Inbox/đăng ký tư vấn/click form = behavior thật. Track con số này cho mỗi proof để biết proof nào generate direction." },
+      { q: "Theo logic 'Brand quyết định hành vi người tiếp xúc' (câu chuyện con bò), một con bò KHÔNG có brand sẽ bị xử lý thế nào?",
+        opts: ["Người ta thiện cảm dắt về","Người ta ghét và ăn thịt","Người ta vô cảm, bỏ qua — vô hình","Người ta đem ra chợ bán"],
+        correct: 2,
+        explain: "No brand = vô hình. Không phải tốt, không phải xấu — không tồn tại trong tâm trí khách. Đây là vị trí tệ nhất vì không thể tận dụng được gì." }
+    ],
+    quiz2: [
+      { q: "Linh post 1 video testimonial học viên Davinci — 50k views, comment toàn 'anh trader xịn quá' nhưng không ai inbox tư vấn. Vấn đề gì?",
+        opts: ["Reach kém — cần boost post","Influence cao nhưng Direction sai — họ tiến tới NGƯỜI HỌC VIÊN, không tới Davinci","Cả branding lẫn ad đều tốt — cần kiên nhẫn","Học viên trong video không đủ thuyết phục"],
+        correct: 1,
+        explain: "Reach OK (50k thấy), Influence có (họ phản ứng — comment), nhưng Direction lệch: pairing Davinci với 'người đẹp' thay vì 'sự biến đổi tài chính sau Trader Master'. Họ ngưỡng mộ học viên, không ngưỡng mộ Davinci." },
+      { q: "Để TĂNG INFLUENCE khi post case study before/after Davinci, Linh nên focus vào gì?",
+        opts: ["Chỉ số đẹp: số giờ học, số bài tập, số module","Logo Davinci to nhất có thể","Sự THAY ĐỔI cụ thể (từ thua lỗ → lãi ổn định, từ trade cảm tính → có hệ thống) — để người xem hình dung CHÍNH HỌ sẽ thay đổi","Tag nhiều KOL trading nổi tiếng"],
+        correct: 2,
+        explain: "Influence = khả năng đổi hành vi. Người xem chỉ đổi hành vi khi họ TỰ HÌNH DUNG mình trong vai chính. Số liệu khô không tạo ra hình dung này; câu chuyện thay đổi cụ thể thì có." },
+      { q: "Đối thủ chạy chiến dịch viral 200k view nhưng comment toàn 'lùa gà, lừa đảo'. Đây là tình huống gì?",
+        opts: ["Ad tốt + Brand tốt","Ad tốt + Brand xấu (giống case Pepsi Kendall — good ad, bad branding)","Ad kém + Brand tốt","Cần thêm dữ liệu để đánh giá"],
+        correct: 1,
+        explain: "Reach cao (200k biết) nhưng direction âm (họ tiến XA đối thủ). Đây chính xác là case Pepsi: lots of awareness, lots of dislike → sales giảm. Davinci có thể tận dụng bằng cách KHÔNG bắt chước style này." },
+      { q: "Linh có 8 testimonial. 6 cái nói 'giáo trình Davinci tốt'. 2 cái kể chuyện 'từ broker phá sản → trader full-time 100M vốn'. Nên đăng cái nào để collect proof tốt nhất?",
+        opts: ["6 cái 'giáo trình tốt' — vì có nhiều bằng chứng hơn","2 cái câu chuyện thay đổi — vì tạo direction TỚI mạnh hơn (người xem muốn thành phiên bản đó)","Tất cả 8 cái — càng nhiều càng tốt","Mix 50/50 cho cân bằng"],
+        correct: 1,
+        explain: "'Giáo trình tốt' = thuộc tính product (low influence). 'Tôi đã thay đổi từ X → Y' = transformation (high influence + clear direction towards Davinci). Quality > Quantity trong proof." },
+      { q: "Davinci có 1 học viên cũ nổi tiếng (1M follower) nhưng đang dính scandal. Theo 'Lots of good beats everything', nên làm gì?",
+        opts: ["Vẫn dùng họ làm testimonial — bad publicity vẫn tốt hơn no publicity","Không dùng — vì 'Lots of good beats everything' = thay vì 1 cái rủi ro, kiếm nhiều testimonial chất lượng cao hơn","Đợi scandal qua rồi dùng","Dùng nhưng che mặt hoặc đổi tên"],
+        correct: 1,
+        explain: "Bad publicity tốt hơn nothing, nhưng 'lots of good beats everything'. Thay vì cược vào 1 testimonial rủi ro, đầu tư collect nhiều testimonial tốt sẽ overwhelm bất cứ pair lệch nào." },
+      { q: "Stranger trader IG đăng story khen Davinci (không ai request). 30 người xem. Theo 3 metrics, nên làm gì?",
+        opts: ["Reach thấp, bỏ qua","Reach thấp nhưng influence rất cao (tự nguyện = trust signal) + direction towards — screenshot, xin permission repost để khuếch đại reach","Yêu cầu họ post lại version chuyên nghiệp hơn","Kiểm tra xem stranger đó có phải bot không"],
+        correct: 1,
+        explain: "Unsolicited testimonial có influence cực cao (vì authentic). Reach thấp là vấn đề có thể fix (xin phép, repost). KHÔNG dùng = lãng phí proof quý nhất." }
+    ],
+    reflection: { current: 3, action: 3 }
+  }
+];
+
+const TOTAL = L.length;
+
+// ============================================================
+// STATE
+// ============================================================
+function getS(k){ try{ return JSON.parse(localStorage.getItem(PREFIX+"_"+k))||{}; } catch{ return {}; } }
+function setS(k,v){ localStorage.setItem(PREFIX+"_"+k, JSON.stringify(v)); }
+function getDone(){ try{ return JSON.parse(localStorage.getItem(PREFIX+"_done"))||[]; } catch{ return []; } }
+function setDone(arr){ localStorage.setItem(PREFIX+"_done", JSON.stringify(arr)); }
+function isDone(id){ return getDone().indexOf(id)>=0; }
+function markDoneId(id){
+  const d=getDone(); if(d.indexOf(id)<0) d.push(id); setDone(d); renderSB();
+}
+function unmarkDoneId(id){
+  const d=getDone().filter(x=>x!==id); setDone(d); renderSB();
+}
+
+let cur = 0;           // 0 = overview, else lesson id
+let reveal = 0;        // index of last revealed component (0..comps.length)
+let qIdx = 0;          // current quiz1 question index
+let q2Idx = 0;         // current quiz2 question index
+let refStep = 0;       // current reflection block index (0..5 = 3 + 3)
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+function toggleSB(){ document.getElementById("sb").classList.toggle("hidden"); }
+
+function renderSB(){
+  const list = document.getElementById("ls");
+  let html = `<button class="lk ${cur===0?'active':''}" onclick="openL(0)">
+    <span class="dot"></span><span>Tổng quan khoá học</span></button>`;
+  L.forEach(l=>{
+    const active = cur===l.id;
+    let dc = "dot"; if(isDone(l.id)) dc+=" done"; if(active) dc+=" active";
+    html += `<button class="lk ${active?'active':''}" onclick="openL(${l.id})">
+      <span class="${dc}"></span><span>${l.id}. ${l.title}</span></button>`;
+  });
+  list.innerHTML = html;
+  document.getElementById("dn").textContent = getDone().length;
+  document.getElementById("ttl").textContent = TOTAL;
+  document.getElementById("pf").style.width = (getDone().length/TOTAL*100)+"%";
+}
+
+// ============================================================
+// ROUTER
+// ============================================================
+function openL(id){
+  cur = id;
+  reveal = 0; qIdx = 0; q2Idx = 0; refStep = 0;
+  if(id===0) renderOverview();
+  else renderLesson(L.find(l=>l.id===id));
+  renderSB();
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// OVERVIEW
+// ============================================================
+function renderOverview(){
+  let cards = L.map(l=>{
+    const done = isDone(l.id);
+    return `<div class="ov-c" onclick="openL(${l.id})">
+      <div class="pt">${l.ptag}</div>
+      <h3>${l.id}. ${l.title}</h3>
+      <div class="meta"><span class="bdg ${done?'':'todo'}">${done?'Hoàn thành':'Chưa học'}</span></div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("ct").innerHTML = `
+    <div class="ov-hero">
+      <h1>${COURSE_TITLE}</h1>
+      <p>Khoá học branding nội bộ dành cho team Davinci Đà Nẵng — chuẩn hoá tư duy thương hiệu trước khi đào tạo các chủ đề marketing tiếp theo. Mỗi bài có progressive reveal, 2 quiz (hiểu khái niệm + áp dụng Davinci) và reflection cá nhân.</p>
+      <div class="meta">Trader Master Program · Áp dụng cho team marketing &amp; vận hành</div>
+    </div>
+    <div class="card">
+      <h3>Hướng dẫn nhanh</h3>
+      <div class="body">
+        <ul>
+          <li>Click vào 1 bài học ở sidebar hoặc card bên dưới để bắt đầu.</li>
+          <li>Nội dung sẽ hiện từng phần — đọc xong bấm "Tiếp" để mở phần kế.</li>
+          <li>Mỗi bài có 2 quiz và 1 phần reflection — tất cả lưu tự động vào trình duyệt.</li>
+          <li>Đánh dấu hoàn thành ở cuối bài để track tiến độ.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ov-grid">${cards}</div>
+  `;
+}
+
+// ============================================================
+// LESSON
+// ============================================================
+function renderLesson(l){
+  // Decide what to show: concept always first, then comps[0..reveal-1], then quiz, quiz2, ref, nav
+  const sQ = getS("quiz")[l.id] || {};
+  const sQ2 = getS("quiz2")[l.id] || {};
+  const sR = getS("ref")[l.id] || {};
+  // restore reveal if user already answered/started later sections
+  const allCompsAnswered = (sQ.answers && Object.keys(sQ.answers).length>0) || (sQ2.answers && Object.keys(sQ2.answers).length>0) || (sR && Object.keys(sR).length>0);
+  if(allCompsAnswered && reveal < l.comps.length) reveal = l.comps.length;
+  // restore quiz indices to "results" if all answered
+  let qDone = sQ.answers && Object.keys(sQ.answers).length >= l.quiz.length;
+  let q2Done = sQ2.answers && Object.keys(sQ2.answers).length >= l.quiz2.length;
+  if(qDone && qIdx < l.quiz.length) qIdx = l.quiz.length;
+  if(q2Done && q2Idx < l.quiz2.length) q2Idx = l.quiz2.length;
+  // restore reflection step
+  const refKeys = Object.keys(sR).length;
+  if(refKeys > refStep) refStep = refKeys;
+
+  let html = `
+    <div class="hdr">
+      <span class="tag p">${l.ptag}</span>
+      <span class="tag s">${l.srcL}</span>
+      <h1 class="ttl">${l.id}. ${l.title}</h1>
+    </div>
+    <div class="card cc">
+      <h3>Statement</h3>
+      <div class="body">${l.concept.replace(/\n/g,"<br>")}</div>
+    </div>
+  `;
+  if(reveal===0){
+    html += `<div class="btn-row"><button class="btn-r" onclick="revealNext()">Tiếp tục đọc &rarr;</button></div>`;
+    document.getElementById("ct").innerHTML = html;
+    return;
+  }
+  // show comps[0..reveal-1]
+  for(let i=0;i<reveal && i<l.comps.length;i++){
+    html += `<div class="card">${l.comps[i].html}</div>`;
+  }
+  if(reveal < l.comps.length){
+    const isLastBeforeQuiz = reveal === l.comps.length - 1;
+    html += `<div class="btn-row"><button class="btn-r" onclick="revealNext()">${isLastBeforeQuiz?'Vào phần quiz &rarr;':'Tiếp tục &rarr;'}</button></div>`;
+    document.getElementById("ct").innerHTML = html;
+    return;
+  }
+  // Quiz 1
+  html += renderQuizBlock(l, 1);
+  if(qIdx < l.quiz.length){
+    document.getElementById("ct").innerHTML = html;
+    return;
+  }
+  // Quiz 2
+  html += renderQuizBlock(l, 2);
+  if(q2Idx < l.quiz2.length){
+    document.getElementById("ct").innerHTML = html;
+    return;
+  }
+  // Reflection
+  html += renderReflectionBlock(l);
+  // Navigation
+  html += `<div class="nav-buttons">
+    <button class="btn-x" onclick="goPrev()">&larr; Bài trước</button>
+    <button class="btn-g" onclick="toggleDone(${l.id})">${isDone(l.id)?'&check; Đã hoàn thành — bỏ đánh dấu':'Đánh dấu hoàn thành'}</button>
+    <button class="btn-r" onclick="goNext()">Bài tiếp theo &rarr;</button>
+  </div>`;
+  document.getElementById("ct").innerHTML = html;
+}
+
+function revealNext(){
+  const l = L.find(x=>x.id===cur);
+  reveal++;
+  if(reveal > l.comps.length) reveal = l.comps.length;
+  renderLesson(l);
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+function renderQuizBlock(l, n){
+  const quiz = n===1 ? l.quiz : l.quiz2;
+  const idx = n===1 ? qIdx : q2Idx;
+  const sKey = n===1 ? "quiz" : "quiz2";
+  const stateAll = getS(sKey);
+  const st = stateAll[l.id] || { answers: {} };
+  const ans = st.answers || {};
+  const tname = n===1 ? "Quiz 1 — Hiểu khái niệm" : "Quiz 2 — Áp dụng Davinci";
+
+  let html = `<div class="card"><h3>${tname}</h3>`;
+
+  if(idx >= quiz.length){
+    // show result
+    let correct = 0;
+    quiz.forEach((q,i)=>{ if(ans[i]===q.correct) correct++; });
+    const pct = Math.round(correct/quiz.length*100);
+    let msg = pct>=80 ? "Xuất sắc — bạn nắm chắc khái niệm." : pct>=60 ? "Tốt — xem lại các câu sai để củng cố." : "Đọc lại Statement &amp; Định nghĩa rồi làm lại quiz.";
+    html += `<div class="qres">
+      <div class="sc">${correct}/${quiz.length}</div>
+      <div class="lbl">${pct}% đúng</div>
+      <div class="msg">${msg}</div>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn-x" onclick="resetQuiz(${l.id},${n})">Làm lại</button>
+        <button class="btn-g" onclick="afterQuiz(${l.id},${n})">${n===1?'Vào Quiz Davinci &rarr;':'Mở phần Reflection &rarr;'}</button>
+      </div>
+    </div></div>`;
+    return html;
+  }
+  const q = quiz[idx];
+  const userAns = ans[idx];
+  html += `<div class="qprog">Câu ${idx+1} / ${quiz.length}</div>`;
+  html += `<div class="qq">${q.q}</div>`;
+  html += `<div>`;
+  q.opts.forEach((o,i)=>{
+    let cls = "opt";
+    if(userAns!==undefined){
+      cls += " dis";
+      if(i===q.correct) cls += " ok";
+      else if(i===userAns) cls += " no";
+    }
+    html += `<div class="${cls}" onclick="ansQuiz(${l.id},${n},${idx},${i})">${String.fromCharCode(65+i)}. ${o}</div>`;
+  });
+  html += `</div>`;
+  if(userAns!==undefined){
+    const ok = userAns===q.correct;
+    html += `<div class="qfb ${ok?'ok':'no'}"><strong>${ok?'Đúng.':'Chưa chính xác.'}</strong> ${q.explain}</div>`;
+    const isLast = idx === quiz.length-1;
+    html += `<div class="btn-row"><button class="btn-g" onclick="nextQuiz(${l.id},${n})">${isLast?'Xem kết quả &rarr;':'Câu tiếp theo &rarr;'}</button></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function ansQuiz(lid, n, idx, opt){
+  const sKey = n===1 ? "quiz" : "quiz2";
+  const all = getS(sKey);
+  if(!all[lid]) all[lid] = { answers: {} };
+  if(all[lid].answers[idx]!==undefined) return;
+  all[lid].answers[idx] = opt;
+  setS(sKey, all);
+  renderLesson(L.find(l=>l.id===lid));
+}
+function nextQuiz(lid, n){
+  if(n===1) qIdx++; else q2Idx++;
+  renderLesson(L.find(l=>l.id===lid));
+}
+function resetQuiz(lid, n){
+  if(!confirm("Làm lại quiz này? Câu trả lời cũ sẽ bị xoá.")) return;
+  const sKey = n===1 ? "quiz" : "quiz2";
+  const all = getS(sKey);
+  delete all[lid];
+  setS(sKey, all);
+  if(n===1) qIdx = 0; else q2Idx = 0;
+  renderLesson(L.find(l=>l.id===lid));
+}
+function afterQuiz(lid, n){
+  // n=1 → go to quiz2 start; n=2 → go to reflection
+  // both: already advances renderLesson via existing state (qIdx already = length)
+  renderLesson(L.find(l=>l.id===lid));
+}
+
+// ============================================================
+// REFLECTION
+// ============================================================
+function renderReflectionBlock(l){
+  const all = getS("ref");
+  const st = all[l.id] || {};
+  const totalBlocks = l.reflection.current + l.reflection.action;
+  let html = `<div class="card"><h3>Reflection — Lầm Tưởng &amp; Thay Đổi</h3>
+    <div class="body" style="margin-bottom:14px">
+      <p>Viết ngắn gọn, không cần dài dòng. Ghi chú lưu tự động.</p>
+    </div>`;
+
+  // Render blocks up to current refStep+1
+  const shown = Math.min(refStep+1, totalBlocks);
+  for(let i=0;i<shown;i++){
+    const isCur = i < l.reflection.current;
+    const idxIn = isCur ? i+1 : i - l.reflection.current + 1;
+    const groupLabel = isCur ? `3 điều bạn Lầm Tưởng — #${idxIn}` : `3 điều bạn sẽ Thay Đổi — #${idxIn}`;
+    const groupCls = isCur ? "lt" : "tc";
+    const key = "b"+i;
+    const val = st[key] || "";
+    html += `<div class="ref-block ${groupCls}">
+      <div class="ti">${groupLabel}</div>
+      <textarea id="r-${l.id}-${i}" onblur="saveRef(${l.id},${i},this.value)" oninput="saveRefDebounced(${l.id},${i},this.value)">${val.replace(/</g,'&lt;')}</textarea>
+    </div>`;
+  }
+  if(refStep < totalBlocks-1){
+    html += `<div class="btn-row"><button class="btn-r" onclick="nextRef(${l.id})">Tiếp &rarr;</button></div>`;
+  } else if(refStep === totalBlocks-1){
+    html += `<div class="btn-row"><button class="btn-g" onclick="saveAllRef(${l.id})">Lưu Reflection</button></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+let _refTimer;
+function saveRefDebounced(lid, i, val){
+  clearTimeout(_refTimer);
+  _refTimer = setTimeout(()=>saveRef(lid,i,val), 400);
+}
+function saveRef(lid, i, val){
+  const all = getS("ref");
+  if(!all[lid]) all[lid] = {};
+  all[lid]["b"+i] = val;
+  setS("ref", all);
+}
+function nextRef(lid){
+  // require current block non-empty? — keep flexible, allow empty but encourage
+  const el = document.getElementById("r-"+lid+"-"+refStep);
+  if(el) saveRef(lid, refStep, el.value);
+  refStep++;
+  renderLesson(L.find(l=>l.id===lid));
+}
+function saveAllRef(lid){
+  // ensure last block saved
+  const l = L.find(x=>x.id===lid);
+  const total = l.reflection.current + l.reflection.action;
+  for(let i=0;i<total;i++){
+    const el = document.getElementById("r-"+lid+"-"+i);
+    if(el) saveRef(lid, i, el.value);
+  }
+  alert("Đã lưu reflection cho bài " + lid + ".");
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function goPrev(){
+  if(cur<=1) openL(0);
+  else openL(cur-1);
+}
+function goNext(){
+  if(cur>=TOTAL) openL(0);
+  else openL(cur+1);
+}
+function toggleDone(id){
+  if(isDone(id)) unmarkDoneId(id);
+  else markDoneId(id);
+  renderLesson(L.find(l=>l.id===id));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderSB();
+openL(0);
+if(window.innerWidth<880) document.getElementById("sb").classList.add("hidden");
+</script>
+</body>
+</html>
